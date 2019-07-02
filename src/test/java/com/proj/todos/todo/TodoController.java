@@ -24,9 +24,7 @@ public class TodoController {
 
     @GetMapping("/todos")
     public @ResponseBody List<Todo> listAll() {
-        List<Todo> ll = new ArrayList<>();
-        ll.addAll(todoRepository.findAll());
-        return ll;
+        return todoRepository.findAll();
     }
 
     @PostMapping("/todos")
