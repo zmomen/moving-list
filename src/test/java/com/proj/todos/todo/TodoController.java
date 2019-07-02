@@ -1,0 +1,51 @@
+package com.proj.todos.todo;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Controller
+@AllArgsConstructor
+public class TodoController {
+
+    @Autowired
+    private TodoRepository todoRepository;
+
+    @GetMapping("/todos")
+    public @ResponseBody List<Todo> listAll() {
+        List<Todo> ll = new ArrayList<>();
+        ll.addAll(todoRepository.findAll());
+        return ll;
+    }
+
+    @PostMapping("/todos")
+    public ResponseEntity<String> createTodo(@RequestBody TodoObject todoObj) {
+        Todo todo = Todo.builder()
+                        .title(todoObj.getTitle())
+                        .desc(todoObj.getDesc())
+                        .createdDate(new Date())
+                        .build();
+        System.out.println(todo.toString());
+        todoRepository.save(todo);
+
+        return ResponseEntity.ok("CREATED!");
+
+    }
+
+    @Data(staticConstructor = "of")
+    static class TodoObject {
+        String title;
+        String desc;
+    }
+}
