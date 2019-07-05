@@ -17,7 +17,7 @@ public class Swagger {
 
     ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-        .title("My API")
+        .title("Todo List")
         .description("Awesome description")
         .license("Apache 2.0")
         .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
