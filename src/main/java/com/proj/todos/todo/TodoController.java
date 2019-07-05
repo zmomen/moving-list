@@ -33,8 +33,8 @@ public class TodoController {
                         .description(todoObj.getDescription())
                         .createdDate(new Date())
                         .build();
-        System.out.println(todo.toString());
-
+        todoRepository.save(todo);
+        
         return ResponseEntity.ok("CREATED!");
 
     }
