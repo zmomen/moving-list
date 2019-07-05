@@ -1,21 +1,21 @@
 /usr/local/mysql/bin/mysql -uroot -p
 
-USE TODOS;
-DROP DATABASE TODOS;
-CREATE DATABASE TODOS;
-USE TODOS;
+USE todos;
+DROP DATABASE todos;
+CREATE DATABASE todos;
+USE todos;
 
-CREATE TABLE TODO_CATEGORY (
-    ID INT AUTO_INCREMENT,
-    CATEGORY VARCHAR(40) NOT NULL,
-    PRIMARY KEY(ID));
+CREATE TABLE todo_category (
+    id INT auto_increment,
+    category VARCHAR(40) NOT NULL,
+    PRIMARY KEY(id));
 
-CREATE TABLE TODO (
-    ID INT AUTO_INCREMENT, 
-    CATEGORY_ID INT NOT NULL, 
-    TITLE VARCHAR(50) NOT NULL, 
+CREATE TABLE todo (
+    id INT auto_increment, 
+    category_id INT NOT NULL, 
+    title VARCHAR(50) NOT NULL, 
     DESCRIPTION VARCHAR(50), 
-    CREATED_DT DATE,
-    PRIMARY KEY(ID), 
-    CONSTRAINT FK_CategoryTodo FOREIGN KEY (CATEGORY_ID)
-    REFERENCES TODO_CATEGORY(ID));
+    created_dt DATE,
+    PRIMARY KEY(id), 
+    CONSTRAINT fk_categorytodo FOREIGN KEY (category_id)
+    REFERENCES todo_category(id));

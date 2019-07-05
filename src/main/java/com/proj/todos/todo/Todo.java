@@ -11,8 +11,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,6 +26,7 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = "todoCategory")
 @Table(name = "todo")
 public class Todo {
 
@@ -30,8 +34,10 @@ public class Todo {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
+    
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "category_id")
+    @JsonIgnoreProperties("todos")
     private TodoCategory todoCategory;
     @Column(name = "title")
     private String title;
