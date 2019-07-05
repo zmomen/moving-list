@@ -30,11 +30,10 @@ public class TodoController {
     public ResponseEntity<String> createTodo(@RequestBody TodoObject todoObj) {
         Todo todo = Todo.builder()
                         .title(todoObj.getTitle())
-                        .desc(todoObj.getDesc())
+                        .description(todoObj.getDescription())
                         .createdDate(new Date())
                         .build();
         System.out.println(todo.toString());
-        todoRepository.save(todo);
 
         return ResponseEntity.ok("CREATED!");
 
@@ -43,6 +42,6 @@ public class TodoController {
     @Data(staticConstructor = "of")
     static class TodoObject {
         String title;
-        String desc;
+        String description;
     }
 }
