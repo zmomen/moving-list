@@ -23,10 +23,9 @@ class App extends React.Component {
   }
 
   render() {
-    const headers = ["Title", "Description", "Created date"];
     return (
       <div className="container grid-lg">
-        <TodoList headers={headers} data={this.state.todos} />
+        <TodoList data={this.state.todos} />
       </div>
     );
   }
