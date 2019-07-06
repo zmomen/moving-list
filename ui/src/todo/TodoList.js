@@ -9,12 +9,13 @@ const TodoList = props => {
         return (
           <div key={index}>
             <b>{element.category}</b>
-            <table className="table">
+            <table className="table table-striped">
               <thead>
                 <tr>
                   {headers.map((element, index) => (
                     <th key={index}>
-                      {element.charAt(0).toUpperCase() + element.slice(1)}
+                      {element.charAt(0).toUpperCase() +
+                        element.slice(1)}
                     </th>
                   ))}
                 </tr>
@@ -22,7 +23,7 @@ const TodoList = props => {
               <tbody>
                 {element.todos.map((todo, index) => {
                   return (
-                    <tr key={index} className="active">
+                    <tr key={index} className={index % 2 === 0 ? "active" : ""}>
                       <td>{todo.title}</td>
                       <td>{todo.description}</td>
                       <td>{dateFmt(todo.createdDate)}</td>
