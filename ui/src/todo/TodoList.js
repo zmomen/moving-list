@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { getTodoCategories } from "../redux/todoActions";
+import { getTodoCategories } from "../redux/actions/todoActions";
 
 class TodoList extends React.Component {
   constructor(props) {
@@ -11,8 +11,20 @@ class TodoList extends React.Component {
         todos: []
     };
   }
+  render() {
+      return (
+          <>
+              HERE tlist!
+          </>
+      )
+  }
 }
 
+function mapStateToProps(state) {
+  return {
+    todos: state.todos
+  };
+}
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({ getTodoCategories }, dispatch);
 }
