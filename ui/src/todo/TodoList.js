@@ -1,24 +1,40 @@
 import React from "react";
+import { dateFmt } from "../utils/helpers";
 
 const TodoList = props => {
-  console.warn("data", props.data);
+  const headers = ["Title", "Description", "Created date"];
   return (
-    <table className="table">
-      <thead>
-        <tr>
-          {props.headers.map((element, index) => (
-            <th key={index}>{element.charAt(0).toUpperCase() + element.slice(1)}</th>
-          ))}
-        </tr>
-      </thead>
-      {/* <tbody>
-        <tr className="active">
-        {props.data.map((element, index) => (
-          <td key={index}>{element}</td>
-        ))}
-        </tr>
-      </tbody> */}
-    </table>
+    <div>
+      {props.data.map((element, index) => {
+        return (
+          <div key={index}>
+            <b>{element.category}</b>
+            <table className="table">
+              <thead>
+                <tr>
+                  {headers.map((element, index) => (
+                    <th key={index}>
+                      {element.charAt(0).toUpperCase() + element.slice(1)}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {element.todos.map((todo, index) => {
+                  return (
+                    <tr key={index} className="active">
+                      <td>{todo.title}</td>
+                      <td>{todo.description}</td>
+                      <td>{dateFmt(todo.createdDate)}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        );
+      })}
+    </div>
   );
 };
 
