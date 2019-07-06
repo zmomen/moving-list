@@ -1,35 +1,25 @@
 import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { getTodoCategories } from "../redux/actions/todoActions";
 
-class TodoList extends React.Component {
-  constructor(props) {
-    super(props);
+const TodoList = props => {
+  console.warn("data", props.data);
+  return (
+    <table className="table">
+      <thead>
+        <tr>
+          {props.headers.map((element, index) => (
+            <th key={index}>{element.charAt(0).toUpperCase() + element.slice(1)}</th>
+          ))}
+        </tr>
+      </thead>
+      {/* <tbody>
+        <tr className="active">
+        {props.data.map((element, index) => (
+          <td key={index}>{element}</td>
+        ))}
+        </tr>
+      </tbody> */}
+    </table>
+  );
+};
 
-    this.state = {
-        todos: []
-    };
-  }
-  render() {
-      return (
-          <>
-              HERE tlist!
-          </>
-      )
-  }
-}
-
-function mapStateToProps(state) {
-  return {
-    todos: state.todos
-  };
-}
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getTodoCategories }, dispatch);
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TodoList);
+export default TodoList;
