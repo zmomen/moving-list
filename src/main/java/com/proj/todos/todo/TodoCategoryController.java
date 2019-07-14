@@ -26,11 +26,20 @@ public class TodoCategoryController {
     private TodoCategoryRepository todoCategoryRepository;
 
     @GetMapping
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public @ResponseBody List<TodoCategory> listAllCategories() {
         return todoCategoryRepository.findAll();
     }
 
+    @GetMapping("/{id}")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public ResponseEntity<TodoCategory> listCategoryByName(@RequestParam long id)
+    {
+    return ResponseEntity.of(todoCategoryRepository.findById(id));
+    }
+
     @PostMapping
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<String> createTodoCategory(@RequestParam(required = true) String category,
             @RequestBody(required = false) List<TodoObject> todoObjectList) {
 

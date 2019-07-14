@@ -5,6 +5,7 @@ import { getTodoCategories } from "./redux/actions/todoActions";
 import "spectre.css";
 import "./App.css";
 import TodoList from "./todo/TodoList";
+import Nav from "./common/Nav";
 
 class App extends React.Component {
   constructor(props) {
@@ -24,8 +25,11 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="container grid-lg">
-        <TodoList data={this.state.todos} />
+      <div>
+        <div className="container grid-lg">
+          <Nav />
+          <TodoList data={this.state.todos} />
+        </div>
       </div>
     );
   }
