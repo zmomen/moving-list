@@ -28,11 +28,13 @@ public class TodoController {
     private TodoRepository todoRepository;
 
     @GetMapping
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public @ResponseBody List<Todo> listAll() {
         return todoRepository.findAll();
     }
 
     @PostMapping
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<String> createTodo(@RequestBody TodoObject todoObj) {
         Todo todo = Todo.builder().title(todoObj.getTitle()).description(todoObj.getDescription())
                 .createdDate(new Date()).build();
@@ -43,6 +45,7 @@ public class TodoController {
     }
 
     @PutMapping("/{id}")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<String> updateArticle(@PathVariable long id, @RequestBody TodoObject todoObject) {
         Todo foundTodo = todoRepository.findById(id).get();
         
