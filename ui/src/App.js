@@ -1,11 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { getTodoCategories } from "./redux/actions/todoActions";
 import "spectre.css";
 import "./App.css";
+import BannerImage from "./common/BannerImage";
+import { getTodoCategories } from "./redux/actions/todoActions";
 import TodoList from "./todo/TodoList";
-import Nav from "./common/Nav";
 
 class App extends React.Component {
   constructor(props) {
@@ -27,7 +27,9 @@ class App extends React.Component {
     return (
       <div>
         <div className="container grid-lg">
-          <Nav />
+          <div className={"App-logo"}>
+            <BannerImage width="400" height="300" />
+          </div>
           <TodoList data={this.state.todos} />
         </div>
       </div>
