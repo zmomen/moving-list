@@ -35,7 +35,7 @@ class TodoCategory {
     private Long id;
     @Column(name = "category")
     private String category;
-    
+
     @OneToMany(mappedBy = "todoCategory", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("category")
     private List<Todo> todos;
