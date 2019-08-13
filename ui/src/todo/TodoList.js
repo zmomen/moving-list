@@ -2,7 +2,7 @@ import React from "react";
 import { dateFmt } from "../utils/helpers";
 
 const TodoList = props => {
-  const headers = ["Title", "Description", "Created date"];
+  const headers = ["Title", "Description", "Created date", "Action"];
   return (
     <div>
       {props.data.map((element, index) => {
@@ -27,6 +27,7 @@ const TodoList = props => {
                       <td>{todo.title}</td>
                       <td>{todo.description}</td>
                       <td>{dateFmt(todo.createdDate)}</td>
+                      <td>{"hah"}</td>
                     </tr>
                   );
                 })}
