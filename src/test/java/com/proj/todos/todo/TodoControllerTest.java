@@ -1,28 +1,35 @@
 package com.proj.todos.todo;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(TodoController.class)
 public class TodoControllerTest {
-    @Autowired
     private MockMvc mockMvc;
+
+    @InjectMocks
+    private TodoController todoController;
 
     @Mock
     private TodoRepository todoRepository;
+
+    @Before
+    public void setup() {
+        mockMvc = standaloneSetup(todoController).build();
+    }
 
     @Test
     public void givenData_whenGetTodoCategories_thenReturnList() throws Exception {
@@ -38,8 +45,9 @@ public class TodoControllerTest {
                 .createdDate(new Date())
                 .build();
 
-        List<Todo> expected = Arrays.asList(mockTodo);
+        List<Todo> expected = Collections.singletonList(mockTodo);
         when(todoRepository.findAll()).thenReturn(expected);
-        mockMvc.perform(MockMvcRequestBuilders.post("/todo-categories")).andReturn();
+        mockMvc.perform(post("/todo-categories"))
+                .andReturn();
     }
 }
