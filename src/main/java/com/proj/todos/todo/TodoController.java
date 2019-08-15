@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @Controller
@@ -40,15 +41,15 @@ public class TodoController {
     @PutMapping("/{id}")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<String> updateArticle(@PathVariable long id, @RequestBody TodoObject todoObject) {
-        Todo foundTodo = todoRepository.findById(id).get();
+        Optional<Todo> foundTodo = Optional.of(todoRepository.findById(id)).get();
 
-        if (foundTodo == null) {
+        if (!foundTodo.isPresent()) {
             return ResponseEntity.notFound().build();
         }
-        foundTodo.setTitle(todoObject.getTitle());
-        foundTodo.setDescription(todoObject.getDescription());
+        foundTodo.get().setTitle(todoObject.getTitle());
+        foundTodo.get().setDescription(todoObject.getDescription());
 
-        todoRepository.save(foundTodo);
+        todoRepository.save(foundTodo.get());
         return ResponseEntity.ok("Updated!");
     }
 
