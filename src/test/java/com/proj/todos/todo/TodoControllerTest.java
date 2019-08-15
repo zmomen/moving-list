@@ -12,8 +12,11 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 @RunWith(SpringRunner.class)
@@ -28,11 +31,12 @@ public class TodoControllerTest {
 
     @Before
     public void setup() {
-        mockMvc = standaloneSetup(todoController).build();
+        mockMvc = standaloneSetup(todoController)
+                .build();
     }
 
     @Test
-    public void givenData_whenGetTodoCategories_thenReturnList() throws Exception {
+    public void givenTodos_whenGetTodos_thenReturnTodosList() throws Exception {
         TodoCategory mockTodoCategory = TodoCategory.builder()
                 .category("category")
                 .build();
@@ -47,7 +51,9 @@ public class TodoControllerTest {
 
         List<Todo> expected = Collections.singletonList(mockTodo);
         when(todoRepository.findAll()).thenReturn(expected);
-        mockMvc.perform(post("/todo-categories"))
-                .andReturn();
+        mockMvc.perform(get("/todos"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$.[0].title").value("title"));
     }
 }
