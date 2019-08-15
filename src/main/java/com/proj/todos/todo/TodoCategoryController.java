@@ -27,24 +27,22 @@ public class TodoCategoryController {
 
     @GetMapping("/{id}")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public ResponseEntity<TodoCategory> listCategoryByName(@RequestParam long id) {
+    public ResponseEntity<TodoCategory> listCategoryById(@PathVariable long id) {
         return ResponseEntity.of(todoCategoryRepository.findById(id));
     }
 
     @PostMapping
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public ResponseEntity<String> createTodoCategory(@RequestParam(required = true) String category,
+    public ResponseEntity<String> createTodoCategory(@RequestParam String category,
                                                      @RequestBody(required = false) List<TodoObject> todoObjectList) {
 
         if (todoObjectList != null) {
             List<Todo> newTodos = new ArrayList<>();
-            todoObjectList.forEach(todoObject -> {
-                newTodos.add(Todo.builder()
-                        .title(todoObject.getTitle())
-                        .description(todoObject.getDescription())
-                        .createdDate(new Date())
-                        .build());
-            });
+            todoObjectList.forEach(todoObject -> newTodos.add(Todo.builder()
+                    .title(todoObject.getTitle())
+                    .description(todoObject.getDescription())
+                    .createdDate(new Date())
+                    .build()));
 
             TodoCategory todoCategory = new TodoCategory(category, newTodos);
             todoCategoryRepository.save(todoCategory);
