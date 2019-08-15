@@ -2,7 +2,7 @@ import React from "react";
 import { dateFmt } from "../utils/helpers";
 
 const TodoList = props => {
-  const headers = ["Title", "Description", "Created date", "Action"];
+  const headers = ["#", "Title", "Description", "Created date", "Action"];
   return (
     <div>
       {props.data.map((element, index) => {
@@ -24,10 +24,11 @@ const TodoList = props => {
                 {element.todos.map((todo, index) => {
                   return (
                     <tr key={index} className={index % 2 === 0 ? "active" : ""}>
+                      <td>{index + 1}</td>
                       <td>{todo.title}</td>
                       <td>{todo.description}</td>
                       <td>{dateFmt(todo.createdDate)}</td>
-                      <td>{"hah"}</td>
+                      <td>hah</td>
                     </tr>
                   );
                 })}
