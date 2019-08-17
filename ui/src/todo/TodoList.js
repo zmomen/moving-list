@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { dateFmt } from "../utils/helpers";
 
 const TodoList = props => {
+  const [isComplete, setTodoState] = useState(false);
+  const [whichIndex, setIndex] = useState(-1);
   const headers = ["#", "Title", "Description", "Created date", "Action"];
   return (
     <div>
@@ -14,21 +16,40 @@ const TodoList = props => {
                 <tr>
                   {headers.map((element, index) => (
                     <th key={index}>
-                      {element.charAt(0).toUpperCase() +
-                        element.slice(1)}
+                      {element.charAt(0).toUpperCase() + element.slice(1)}
                     </th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {element.todos.map((todo, index) => {
+                  const rowStyle =
+                    whichIndex === index && isComplete
+                      ? { textDecoration: "line-through" }
+                      : {};
                   return (
-                    <tr key={index} className={index % 2 === 0 ? "active" : ""}>
+                    <tr
+                      key={index}
+                      className={
+                        index % 2 === 0 ? "active" : ""
+                      }
+                      style={rowStyle}
+                    >
                       <td>{index + 1}</td>
                       <td>{todo.title}</td>
                       <td>{todo.description}</td>
                       <td>{dateFmt(todo.createdDate)}</td>
-                      <td>hah</td>
+                      <td>
+                        <span
+                          onClick={() => {
+                            setTodoState(!isComplete);
+                            setIndex(index);
+                          }}
+                          style={{ cursor: "pointer", color: "blue" }}
+                        >
+                          &#10003;
+                        </span>
+                      </td>
                     </tr>
                   );
                 })}
