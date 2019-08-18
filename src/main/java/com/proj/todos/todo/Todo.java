@@ -39,10 +39,16 @@ public class Todo {
     @JoinColumn(name = "category_id")
     @JsonIgnoreProperties("todos")
     private TodoCategory todoCategory;
+
     @Column(name = "title")
     private String title;
+
     @Column(name = "description")
     private String description;
-    @Column(name = "created_dt")
-    private Date createdDate;
+
+    @Column(name = "modified_dt")
+    private Date modifiedDate;
+
+    @Column(name = "completed")
+    private boolean completed;
 }
