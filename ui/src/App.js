@@ -4,6 +4,7 @@ import { bindActionCreators } from "redux";
 import "spectre.css";
 import "./App.css";
 import BannerImage from "./common/BannerImage";
+import Footer from "./common/Footer";
 import { getTodoCategories } from "./redux/actions/todoActions";
 import TodoList from "./todo/TodoList";
 
@@ -32,6 +33,7 @@ class App extends React.Component {
           </div>
           <TodoList data={this.state.todos} />
         </div>
+        <Footer/>
       </div>
     );
   }
