@@ -30,8 +30,12 @@ public class TodoController {
     @PostMapping
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<String> createTodo(@RequestBody TodoObject todoObj) {
-        Todo todo = Todo.builder().title(todoObj.getTitle()).description(todoObj.getDescription())
-                .createdDate(new Date()).build();
+        Todo todo = Todo.builder()
+                .title(todoObj.getTitle())
+                .description(todoObj.getDescription())
+                .completed(false)
+                .modifiedDate(new Date())
+                .build();
         todoRepository.save(todo);
 
         return ResponseEntity.ok("CREATED!");
@@ -40,7 +44,7 @@ public class TodoController {
 
     @PutMapping("/{id}")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public ResponseEntity<String> updateArticle(@PathVariable long id, @RequestBody TodoObject todoObject) {
+    public ResponseEntity<String> updateTodo(@PathVariable long id, @RequestBody TodoObject todoObject) {
         Optional<Todo> foundTodo = Optional.of(todoRepository.findById(id)).get();
 
         if (!foundTodo.isPresent()) {
@@ -48,6 +52,9 @@ public class TodoController {
         }
         foundTodo.get().setTitle(todoObject.getTitle());
         foundTodo.get().setDescription(todoObject.getDescription());
+        foundTodo.get().setCompleted(todoObject.isCompleted());
+        foundTodo.get().setModifiedDate(new Date());
+
 
         todoRepository.save(foundTodo.get());
         return ResponseEntity.ok("Updated!");
@@ -57,5 +64,6 @@ public class TodoController {
     static class TodoObject {
         String title;
         String description;
+        boolean completed;
     }
 }

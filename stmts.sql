@@ -19,3 +19,6 @@ CREATE TABLE todo (
     PRIMARY KEY(id), 
     CONSTRAINT fk_categorytodo FOREIGN KEY (category_id)
     REFERENCES todo_category(id));
+
+ALTER TABLE todo ADD COLUMN completed BOOLEAN;
+

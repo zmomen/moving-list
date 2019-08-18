@@ -41,7 +41,8 @@ public class TodoCategoryController {
             todoObjectList.forEach(todoObject -> newTodos.add(Todo.builder()
                     .title(todoObject.getTitle())
                     .description(todoObject.getDescription())
-                    .createdDate(new Date())
+                    .modifiedDate(new Date())
+                    .completed(false)
                     .build()));
 
             TodoCategory todoCategory = new TodoCategory(category, newTodos);
