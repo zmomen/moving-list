@@ -4,7 +4,7 @@ import { dateFmt } from "../utils/helpers";
 const TodoList = props => {
   const [isComplete, setTodoState] = useState(false);
   const [whichIndex, setIndex] = useState(-1);
-  const headers = ["#", "Title", "Description", "Created date", "Action"];
+  const headers = ["#", "Title", "Description", "Modified date", "Action"];
   return (
     <div>
       {props.data.map((element, index) => {
@@ -35,10 +35,10 @@ const TodoList = props => {
                       }
                       style={rowStyle}
                     >
-                      <td>{index + 1}</td>
+                      <td>{todo.id}</td>
                       <td>{todo.title}</td>
                       <td>{todo.description}</td>
-                      <td>{dateFmt(todo.createdDate)}</td>
+                      <td>{dateFmt(todo.modifiedDate)}</td>
                       <td>
                         <span
                           onClick={() => {
