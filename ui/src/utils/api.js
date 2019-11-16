@@ -11,3 +11,7 @@ var instance = axios.create({
 export function getTodoCategories() {
   return instance.get("/todo-categories", config);
 }
+
+export function updateTodo(id, title, desc) {
+  return instance.put(`/todos/${id}`, config);
+}

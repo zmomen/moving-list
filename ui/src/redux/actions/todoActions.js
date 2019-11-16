@@ -10,3 +10,14 @@ export const getTodoCategories = () => {
     });
   };
 };
+
+export const updateTodo = (id, title, desc) => {
+  return dispatch => {
+    api.updateTodo(id, title, desc).then(todos => {
+      dispatch({
+        type: "GET_TODOS",
+        payload: todos.data
+      });
+    });
+  };
+};
