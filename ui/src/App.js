@@ -45,7 +45,7 @@ function mapStateToProps(state) {
   };
 }
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getTodoCategories }, dispatch);
+  return bindActionCreators({ getTodoCategories,  }, dispatch);
 }
 
 export default connect(

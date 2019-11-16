@@ -76,24 +76,18 @@ public class TodoControllerTest {
 
         verify(todoRepository, times(1)).save(any(Todo.class));
     }
-
-    @Test
-    public void givenTodo_whenUpdateTodo_thenReturnOK() throws Exception {
-        Todo mockTodo = Todo.builder()
-                .title("title")
-                .description("description")
-                .completed(false)
-                .modifiedDate(new Date())
-                .build();
-
-//        mockMvc.perform(put("/todos/{id}", mockTodo.getId())
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .body(asJsonString(mockTodo)))
-//                .andExpect(status().isOk())
-//                .andExpect(content().string("CREATED!"));
 //
-//        verify(todoRepository, times(1)).save();
-    }
+//    @Test
+//    public void givenTodo_whenUpdateTodo_thenReturnOK() throws Exception {
+//
+////        mockMvc.perform(put("/todos/{id}", mockTodo.getId())
+////                .contentType(MediaType.APPLICATION_JSON)
+////                .body(asJsonString(mockTodo)))
+////                .andExpect(status().isOk())
+////                .andExpect(content().string("CREATED!"));
+////
+////        verify(todoRepository, times(1)).save();
+//    }
 
     /*
      * converts a Java object into JSON representation
