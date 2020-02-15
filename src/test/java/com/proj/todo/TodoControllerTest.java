@@ -1,4 +1,4 @@
-package com.proj.todos.todo;
+package com.proj.todo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
@@ -16,7 +16,6 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.*;
-import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -87,6 +86,13 @@ public class TodoControllerTest {
 ////                .andExpect(content().string("CREATED!"));
 ////
 ////        verify(todoRepository, times(1)).save();
+//    }
+
+//    @Test
+//    public void givenTodos_whenGetAll_thenReturnTodos() throws Exception {
+//        mockMvc.perform(get("/todos/all")
+//                .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk());
 //    }
 
     /*

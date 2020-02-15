@@ -1,4 +1,4 @@
-package com.proj.todos.todo;
+package com.proj.todo;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;

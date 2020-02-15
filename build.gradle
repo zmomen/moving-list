@@ -33,6 +33,7 @@ dependencies {
 	compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile 'mysql:mysql-connector-java'
     compile("com.h2database:h2")
+	compile("org.json:json:20141113")
 
 	testCompile("junit:junit")
 	
