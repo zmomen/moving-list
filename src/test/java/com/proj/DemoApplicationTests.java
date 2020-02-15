@@ -1,4 +1,4 @@
-package com.proj.todos;
+package com.proj;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

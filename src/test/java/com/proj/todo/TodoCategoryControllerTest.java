@@ -1,4 +1,4 @@
-package com.proj.todos.todo;
+package com.proj.todo;
 
 import org.junit.Before;
 import org.junit.Test;

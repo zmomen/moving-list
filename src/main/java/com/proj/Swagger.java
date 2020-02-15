@@ -1,4 +1,4 @@
-package com.proj.todos;
+package com.proj;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +29,7 @@ public class Swagger {
     @Bean
     public Docket apiDocket() {
         return new Docket(DocumentationType.SWAGGER_2).select()
-        .apis(RequestHandlerSelectors.basePackage("com.proj.todos"))
+        .apis(RequestHandlerSelectors.basePackage("com.proj"))
                 .build()
                 .apiInfo(apiInfo());
     }

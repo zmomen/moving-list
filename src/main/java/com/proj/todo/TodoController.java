@@ -1,4 +1,4 @@
-package com.proj.todos.todo;
+package com.proj.todo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,9 +22,8 @@ public class TodoController {
 
     @GetMapping
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public @ResponseBody
-    List<Todo> listAll() {
-        return todoRepository.findAll();
+    public ResponseEntity listAll() {
+        return ResponseEntity.ok(todoRepository.findAll());
     }
 
     @PostMapping

@@ -1,4 +1,4 @@
-package com.proj.todos.todo;
+package com.proj.todo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
