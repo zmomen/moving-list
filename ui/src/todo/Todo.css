@@ -1,0 +1,16 @@
+.add-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 1rem;
+  border-radius: 10px;
+  background-color: rgb(101, 82, 134);
+}
+
+input, textarea, table, div {
+    color: black;
+}
+
+label {
+    color: white;
+}

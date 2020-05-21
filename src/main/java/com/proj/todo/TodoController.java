@@ -19,6 +19,7 @@ public class TodoController {
 
     @Autowired
     private TodoRepository todoRepository;
+    private TodoCategoryRepository todoCategoryRepository;
 
     @GetMapping
     @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -29,9 +30,24 @@ public class TodoController {
     @PostMapping
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<String> createTodo(@RequestBody TodoObject todoObj) {
+
+        TodoCategory maybeCategory;
+        Optional<TodoCategory> byCategory = todoCategoryRepository.findByCategory(todoObj.getCategory());
+        if (byCategory.isPresent()) {
+            maybeCategory = byCategory.get();
+        } else {
+            maybeCategory = TodoCategory
+                    .builder()
+                    .category(todoObj.getCategory())
+                    .build();
+            todoCategoryRepository.save(maybeCategory);
+        }
+
         Todo todo = Todo.builder()
                 .title(todoObj.getTitle())
+                .createdAt(new Date())
                 .description(todoObj.getDescription())
+                .todoCategory(maybeCategory)
                 .completed(false)
                 .modifiedDate(new Date())
                 .build();
@@ -63,6 +79,7 @@ public class TodoController {
     static class TodoObject {
         String title;
         String description;
+        String category;
         boolean completed;
     }
 }

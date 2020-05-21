@@ -1,54 +1,41 @@
-import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import React, { useState, useEffect } from "react";
 import "spectre.css";
 import "./App.css";
 import BannerImage from "./common/BannerImage";
 import Footer from "./common/Footer";
-import { getTodoCategories } from "./redux/actions/todoActions";
 import TodoList from "./todo/TodoList";
+import Todo from "./todo/Todo";
+import * as api from "./utils/api";
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
+const App = () => {
+  // const [hasError, setErrors] = useState([]);
+  const [todos, setTodos] = useState([]);
+  useEffect(() => {
+    api
+      .getTodoCategories()
+      .then((res) => {
+        console.warn("some data", res);
+        setTodos(res.data);
+      })
+      .catch((err) => {
+        console.warn("errors", err);
+        // setErrors([err]);
+      });
+  });
 
-    this.state = {
-      todos: []
-    };
-    this.props.getTodoCategories();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.todos !== this.props.todos) {
-      this.setState({ todos: nextProps.todos });
-    }
-  }
-
-  render() {
-    return (
-      <div>
-        <div className="container grid-lg">
-          <div className={"App-logo"}>
-            <BannerImage width="400" height="300" />
-          </div>
-          <TodoList data={this.state.todos} />
+  return (
+    <div>
+      <div className="container grid-lg">
+        <div className={"App-logo"}>
+          <BannerImage width="300" height="200" />
+          <Todo />
         </div>
-        <Footer/>
+        {/* {hasError ? "ERROS!" : ""} */}
+        <TodoList data={todos} />
       </div>
-    );
-  }
-}
+      <Footer />
+    </div>
+  );
+};
 
-function mapStateToProps(state) {
-  return {
-    todos: state.todos
-  };
-}
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getTodoCategories,  }, dispatch);
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default App;

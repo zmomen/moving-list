@@ -1,5 +1,5 @@
 import React from "react";
-import main from "./us cute.jpg"; // Tell Webpack this JS file uses this image
+import main from "./img.png"; // Tell Webpack this JS file uses this image
 
 function BannerImage(props) {
   // Import result is the URL of your image
