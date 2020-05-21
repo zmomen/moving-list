@@ -1,6 +1,7 @@
 package com.proj.todo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @EqualsAndHashCode(exclude = "todos")
 @Table(name = "todo_category")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 class TodoCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

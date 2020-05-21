@@ -30,9 +30,7 @@ const TodoList = props => {
                   return (
                     <tr
                       key={index}
-                      className={
-                        index % 2 === 0 ? "active" : ""
-                      }
+                      className={index % 2 === 0 ? "active" : ""}
                       style={rowStyle}
                     >
                       <td>{todo.id}</td>

@@ -13,6 +13,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -28,6 +29,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @EqualsAndHashCode(exclude = "todoCategory")
 @Table(name = "todo")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Todo {
 
     @Id
@@ -45,6 +47,9 @@ public class Todo {
 
     @Column(name = "description")
     private String description;
+
+    @Column(name = "created_dt")
+    private Date createdAt;
 
     @Column(name = "modified_dt")
     private Date modifiedDate;
