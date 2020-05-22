@@ -19,7 +19,7 @@ create TABLE todo (
     DESCRIPTION VARCHAR(50), 
     completed BOOLEAN,
     created_dt DATE,
-    modified_at DATE,
+    modified_dt DATE,
     PRIMARY KEY(id),
     CONSTRAINT fk_categorytodo FOREIGN KEY (category_id)
     REFERENCES todo_category(id));

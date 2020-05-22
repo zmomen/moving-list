@@ -7,10 +7,23 @@
   background-color: rgb(101, 82, 134);
 }
 
-input, textarea, table, div {
-    color: black;
+input,
+textarea,
+table,
+div {
+  color: black;
 }
 
 label {
-    color: white;
+  color: white;
+}
+
+.todo-table > * {
+  display: block;
+  margin-top: 15px;
+}
+
+.selected {
+  font-weight: bold;
+  color: rgb(101, 82, 134)
 }
