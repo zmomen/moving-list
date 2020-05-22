@@ -1,37 +1,68 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "spectre.css";
 import "./App.css";
 import BannerImage from "./common/BannerImage";
+import ErrorBlock from "./common/ErrorBlock";
 import Footer from "./common/Footer";
 import TodoList from "./todo/TodoList";
-import Todo from "./todo/Todo";
+import AddTodo from "./todo/AddTodo";
 import * as api from "./utils/api";
+import Nav from "./common/Nav";
 
 const App = () => {
-  // const [hasError, setErrors] = useState([]);
-  const [todos, setTodos] = useState([]);
+  const [todoStatus, setTodoStatus] = useState({ completed: 0, active: 0 });
+  const [todos, setTodos] = useState({ data: [], errors: null });
+  const [isNewData, setIsNewData] = useState(false);
   useEffect(() => {
     api
       .getTodoCategories()
       .then((res) => {
         console.warn("some data", res);
-        setTodos(res.data);
+        setTodos({ data: res.data, errors: null });
+
+        let active = 0,
+          completed = 0;
+        res.data.forEach((element) => {
+          element.todos.forEach((todo) => {
+            todo.completed ? completed++ : active++;
+          });
+        });
+        setTodoStatus({ completed: completed, active: active });
       })
-      .catch((err) => {
-        console.warn("errors", err);
-        // setErrors([err]);
+      .catch((error) => {
+        console.warn("what", { ...error });
+        setTodos({ data: [], errors: error });
       });
-  });
+  }, [isNewData]);
+
+  const addTodo = useCallback(
+    (userInput) => {
+      api
+        .createTodo(userInput)
+        .then((res) => {
+          console.warn("Suces", res.data);
+          setIsNewData(!isNewData);
+        })
+        .catch(function (error) {
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        });
+    },
+    [isNewData]
+  );
 
   return (
     <div>
-      <div className="container grid-lg">
+      <div className={"container grid-lg"}>
+        <Nav data={todoStatus}/>
+        
         <div className={"App-logo"}>
-          <BannerImage width="300" height="200" />
-          <Todo />
+          <BannerImage className={"rounded"} width="350" height="300" />
+          <AddTodo addTodo={addTodo} />
         </div>
-        {/* {hasError ? "ERROS!" : ""} */}
-        <TodoList data={todos} />
+        {todos.errors !== null ? <ErrorBlock errors={todos.errors} /> : ""}
+        <TodoList data={todos.data} />
       </div>
       <Footer />
     </div>

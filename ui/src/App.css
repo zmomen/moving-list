@@ -24,3 +24,7 @@
 .App-link {
   color: #61dafb;
 }
+
+.rounded {
+  border-radius: 10px;
+}
