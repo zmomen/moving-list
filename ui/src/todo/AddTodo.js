@@ -1,10 +1,7 @@
-import React, { useReducer, useState, useCallback } from "react";
-import * as api from "../utils/api";
-
+import React, { useReducer } from "react";
 import "./Todo.css";
 
-const Todo = (props) => {
-  const [errors, setErrors] = useState();
+const AddTodo = (props) => {
   const [userInput, setUserInput] = useReducer(
     (state, newState) => ({ ...state, ...newState }),
     {
@@ -13,19 +10,6 @@ const Todo = (props) => {
       category: "",
     }
   );
-
-  const handleSubmit = useCallback(() => {
-    console.warn("buttn", userInput);
-    api
-      .createTodo(userInput)
-      .then((res) => {
-        console.warn("Suces", res.data);
-      })
-      .catch((err) => {
-        console.warn("error", err.data);
-        // setErrors(err);
-      });
-  }, [userInput]);
 
   const handleChange = (evt) => {
     const name = evt.target.name;
@@ -61,12 +45,14 @@ const Todo = (props) => {
           />
         </div>
       </div>
-      <button className={"btn btn-success"} onClick={handleSubmit}>
-        Add Task
+      <button
+        className={"btn btn-success"}
+        onClick={() => props.addTodo(userInput)}
+      >
+        Add Todo
       </button>
-      {errors !== undefined ? <div className={"error"}> {errors}</div> : ""}
     </div>
   );
 };
 
-export default Todo;
+export default AddTodo;
