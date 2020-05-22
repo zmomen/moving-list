@@ -7,9 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.Date;
-import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @Controller
@@ -26,6 +28,21 @@ public class TodoController {
     public ResponseEntity listAll() {
         return ResponseEntity.ok(todoRepository.findAll());
     }
+
+    @GetMapping("/status")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public ResponseEntity getStatus() {
+
+        Map<String, Long> result = todoRepository.findAll()
+                .stream()
+                .collect(Collectors.groupingBy(Todo::isCompleted, Collectors.counting()))
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(e -> e.getKey() ? "complete" : "active", Map.Entry::getValue));
+
+        return ResponseEntity.ok(result);
+    }
+
 
     @PostMapping
     @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -53,7 +70,7 @@ public class TodoController {
                 .build();
         todoRepository.save(todo);
 
-        return ResponseEntity.ok("CREATED!");
+        return ResponseEntity.created(URI.create(todoObj.getTitle())).body("CREATED!");
 
     }
 
