@@ -12,11 +12,14 @@ export function getTodoCategories() {
   return instance.get("/todo-categories", config);
 }
 
+export function getTodoStatus() {
+  return instance.get("/todos/status", config);
+}
+
 export function updateTodo(id, title, desc) {
   return instance.put(`/todos/${id}`, config);
 }
 
 export function createTodo(data) {
-  console.warn("waht is be ing sent?", data);
-  return instance.post('/todos', data);
+  return instance.post('/todos', data, config);
 }
