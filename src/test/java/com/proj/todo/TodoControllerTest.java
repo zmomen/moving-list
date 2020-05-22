@@ -30,6 +30,9 @@ public class TodoControllerTest {
     @Mock
     private TodoRepository todoRepository;
 
+    @Mock
+    private TodoCategoryRepository todoCategoryRepository;
+
     @Before
     public void setup() {
         mockMvc = standaloneSetup(todoController)
@@ -59,17 +62,23 @@ public class TodoControllerTest {
     }
 
     @Test
-    public void givenNewTodo_whenCreateTodo_thenReturnOK() throws Exception {
-        Todo mockTodo = Todo.builder()
-                .id(1L)
+    public void givenNewTodo_whenCreateTodoAndCategoryExists_thenCreateTodoForThatCategoryAndReturnCreated() throws Exception {
+        String mockedCategory = "cat";
+
+        TodoRequest request = TodoRequest.builder()
                 .title("title")
-                .description("description")
+                .description("desc")
+                .category(mockedCategory)
+                .completed(false)
                 .build();
+
+        when(todoCategoryRepository.findByCategory(mockedCategory))
+                .thenReturn(Optional.of(TodoCategory.builder().category(mockedCategory).build()));
 
         mockMvc.perform(post("/todos")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(mockTodo)))
-                .andExpect(status().isOk())
+                .content(asJsonString(request)))
+                .andExpect(status().isCreated())
                 .andExpect(content().string("CREATED!"));
 
         verify(todoRepository, times(1)).save(any(Todo.class));
@@ -78,23 +87,27 @@ public class TodoControllerTest {
     @Test
     public void givenTodos_whenGetStatus_thenReturnsActiveAndCompleted() throws Exception {
         Todo complete = Todo.builder()
+                .title("todo1")
                 .completed(true)
                 .build();
 
         Todo active = Todo.builder()
+                .title("todo2")
                 .completed(false)
                 .build();
 
-    List<Todo> expected = new ArrayList<>();
-    expected.add(complete);
-    expected.add(active);
+        List<Todo> expected = new ArrayList<>();
+        expected.add(complete);
+        expected.add(active);
 
         when(todoRepository.findAll()).thenReturn(expected);
 
         mockMvc.perform(get("/todos/status"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.active", is(1)))
-                .andExpect(jsonPath("$.complete", is(1)));
+                .andExpect(jsonPath("$.active", hasSize(1)))
+                .andExpect(jsonPath("$.active.[0].title", is(active.getTitle())))
+                .andExpect(jsonPath("$.complete", hasSize(1)))
+                .andExpect(jsonPath("$.complete.[0].title", is(complete.getTitle())));
 
         verify(todoRepository, times(1)).findAll();
 

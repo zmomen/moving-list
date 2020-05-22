@@ -17,7 +17,6 @@ const App = () => {
     api
       .getTodoCategories()
       .then((res) => {
-        console.warn("some data", res);
         setTodos({ data: res.data, errors: null });
 
         let active = 0,

@@ -1,7 +1,6 @@
 package com.proj.todo;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -9,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,9 +33,9 @@ public class TodoController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity getStatus() {
 
-        Map<String, Long> result = todoRepository.findAll()
+        Map<String, List<Todo>> result = todoRepository.findAll()
                 .stream()
-                .collect(Collectors.groupingBy(Todo::isCompleted, Collectors.counting()))
+                .collect(Collectors.groupingBy(Todo::isCompleted))
                 .entrySet()
                 .stream()
                 .collect(Collectors.toMap(e -> e.getKey() ? "complete" : "active", Map.Entry::getValue));
@@ -46,57 +46,49 @@ public class TodoController {
 
     @PostMapping
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public ResponseEntity<String> createTodo(@RequestBody TodoObject todoObj) {
+    public ResponseEntity<String> createTodo(@RequestBody TodoRequest todoRequest) {
 
         TodoCategory maybeCategory;
-        Optional<TodoCategory> byCategory = todoCategoryRepository.findByCategory(todoObj.getCategory());
+        Optional<TodoCategory> byCategory = todoCategoryRepository.findByCategory(todoRequest.getCategory());
         if (byCategory.isPresent()) {
             maybeCategory = byCategory.get();
         } else {
             maybeCategory = TodoCategory
                     .builder()
-                    .category(todoObj.getCategory())
+                    .category(todoRequest.getCategory())
                     .build();
             todoCategoryRepository.save(maybeCategory);
         }
 
         Todo todo = Todo.builder()
-                .title(todoObj.getTitle())
+                .title(todoRequest.getTitle())
                 .createdAt(new Date())
-                .description(todoObj.getDescription())
+                .description(todoRequest.getDescription())
                 .todoCategory(maybeCategory)
                 .completed(false)
                 .modifiedDate(new Date())
                 .build();
         todoRepository.save(todo);
 
-        return ResponseEntity.created(URI.create(todoObj.getTitle())).body("CREATED!");
+        return ResponseEntity.created(URI.create(todoRequest.getTitle())).body("CREATED!");
 
     }
 
     @PutMapping("/{id}")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public ResponseEntity<String> updateTodo(@PathVariable long id, @RequestBody TodoObject todoObject) {
+    public ResponseEntity<String> updateTodo(@PathVariable long id, @RequestBody TodoRequest todoRequest) {
         Optional<Todo> foundTodo = Optional.of(todoRepository.findById(id)).get();
 
         if (!foundTodo.isPresent()) {
             return ResponseEntity.notFound().build();
         }
-        foundTodo.get().setTitle(todoObject.getTitle());
-        foundTodo.get().setDescription(todoObject.getDescription());
-        foundTodo.get().setCompleted(todoObject.isCompleted());
+        foundTodo.get().setTitle(todoRequest.getTitle());
+        foundTodo.get().setDescription(todoRequest.getDescription());
+        foundTodo.get().setCompleted(todoRequest.isCompleted());
         foundTodo.get().setModifiedDate(new Date());
 
 
         todoRepository.save(foundTodo.get());
         return ResponseEntity.ok("Updated!");
-    }
-
-    @Data(staticConstructor = "of")
-    static class TodoObject {
-        String title;
-        String description;
-        String category;
-        boolean completed;
     }
 }
