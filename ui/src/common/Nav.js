@@ -1,26 +1,19 @@
 import React from "react";
+import TodoStatus from "../todo/TodoStatus";
+import "./Nav.css";
 
-const Nav = () => {
+const Nav = ({ data }) => {
   return (
-    <ul className="nav">
-      <li className="nav-item active">
-        <a href="#">Layout</a>
-        <ul className="nav">
-          <li className="nav-item">
-            <a href="#">Flexbox grid</a>
-          </li>
-          <li className="nav-item">
-            <a href="#">Responsive</a>
-          </li>
-          <li className="nav-item">
-            <a href="#">Empty states</a>
-          </li>
-        </ul>
-      </li>
-      <li className="nav-item">
-        <a href="#">Components</a>
-      </li>
-    </ul>
+    <header className={"header navbar"}>
+      <section className={"navbar-section"}>
+        <a href="..." className={"navbar-brand mr-2"}>
+          <span role="img" aria-label="">Moving, Inc™️</span>
+        </a>
+      </section>
+      <section className={"navbar-section"}>
+        <TodoStatus data={data} />
+      </section>
+    </header>
   );
 };
 
