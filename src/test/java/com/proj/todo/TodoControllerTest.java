@@ -10,11 +10,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -74,6 +73,31 @@ public class TodoControllerTest {
                 .andExpect(content().string("CREATED!"));
 
         verify(todoRepository, times(1)).save(any(Todo.class));
+    }
+
+    @Test
+    public void givenTodos_whenGetStatus_thenReturnsActiveAndCompleted() throws Exception {
+        Todo complete = Todo.builder()
+                .completed(true)
+                .build();
+
+        Todo active = Todo.builder()
+                .completed(false)
+                .build();
+
+    List<Todo> expected = new ArrayList<>();
+    expected.add(complete);
+    expected.add(active);
+
+        when(todoRepository.findAll()).thenReturn(expected);
+
+        mockMvc.perform(get("/todos/status"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.active", is(1)))
+                .andExpect(jsonPath("$.complete", is(1)));
+
+        verify(todoRepository, times(1)).findAll();
+
     }
 //
 //    @Test
