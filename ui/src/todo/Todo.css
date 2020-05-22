@@ -18,6 +18,15 @@ label {
   color: white;
 }
 
+.todo-badge > * {
+  margin-left: 5px;
+}
+
+.todo-table-title {
+  text-align: center;
+  font-size: 18pt;
+}
+
 .todo-table > * {
   display: block;
   margin-top: 15px;
@@ -25,5 +34,22 @@ label {
 
 .selected {
   font-weight: bold;
-  color: rgb(101, 82, 134)
+  color: rgb(101, 82, 134);
+}
+
+.todo-completed-text {
+  font-style: italic;
+  color: gray;
+  font-size: small;
+}
+
+.todo-completed-block {
+  display: flex;
+  color: green;
+  justify-content: space-between;
+  text-align: justify;
+}
+
+.todo-action-btn {
+  cursor: pointer;
 }
