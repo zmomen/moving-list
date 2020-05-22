@@ -29,7 +29,7 @@ const App = () => {
         setTodoStatus({ completed: completed, active: active });
       })
       .catch((error) => {
-        console.warn("what", { ...error });
+        console.warn("failed", { ...error });
         setTodos({ data: [], errors: error });
       });
   }, [isNewData]);

@@ -91,4 +91,17 @@ public class TodoController {
         todoRepository.save(foundTodo.get());
         return ResponseEntity.ok("Updated!");
     }
+
+    @DeleteMapping("/{id}")
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    public ResponseEntity<String> deleteTodo(@PathVariable long id) {
+        Optional<Todo> foundTodo = Optional.of(todoRepository.findById(id)).get();
+
+        if (!foundTodo.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        todoRepository.delete(Todo.builder().id(id).build());
+        return ResponseEntity.noContent().build();
+    }
 }

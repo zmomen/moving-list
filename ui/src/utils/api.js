@@ -1,11 +1,11 @@
 import axios from "axios";
 
 var config = {
-  headers: { "Access-Control-Allow-Origin": "*" }
+  headers: { "Access-Control-Allow-Origin": "*" },
 };
 
 var instance = axios.create({
-  baseURL: "http://localhost:8080"
+  baseURL: "http://localhost:8080",
 });
 
 export function getTodoCategories() {
@@ -21,5 +21,9 @@ export function updateTodo(id, title, desc) {
 }
 
 export function createTodo(data) {
-  return instance.post('/todos', data, config);
+  return instance.post("/todos", data, config);
+}
+
+export function deleteTodo(id) {
+  return instance.delete(`/todos/${id}`, config);
 }

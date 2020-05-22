@@ -15,8 +15,7 @@ import java.util.*;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
@@ -85,6 +84,29 @@ public class TodoControllerTest {
     }
 
     @Test
+    public void givenNewTodo_whenCreateTodoAndCategoryIsNew_thenCreateTodoForThatCategoryAndReturnCreated() throws Exception {
+        String mockedCategory = "new";
+
+        TodoRequest request = TodoRequest.builder()
+                .title("title")
+                .description("desc")
+                .category(mockedCategory)
+                .completed(false)
+                .build();
+
+        when(todoCategoryRepository.findByCategory(mockedCategory))
+                .thenReturn(Optional.empty());
+
+        mockMvc.perform(post("/todos")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(request)))
+                .andExpect(status().isCreated())
+                .andExpect(content().string("CREATED!"));
+
+        verify(todoCategoryRepository, times(1)).save(any(TodoCategory.class));
+    }
+
+    @Test
     public void givenTodos_whenGetStatus_thenReturnsActiveAndCompleted() throws Exception {
         Todo complete = Todo.builder()
                 .title("todo1")
@@ -110,7 +132,24 @@ public class TodoControllerTest {
                 .andExpect(jsonPath("$.complete.[0].title", is(complete.getTitle())));
 
         verify(todoRepository, times(1)).findAll();
+    }
 
+    @Test
+    public void givenTodos_whenDeleteTodo_thenDeletesTodoAndReturnsNoContent() throws Exception {
+        long todoId = 1L;
+        Todo todo = Todo.builder()
+                .id(todoId)
+                .title("todo1")
+                .completed(true)
+                .build();
+
+        when(todoRepository.findById(todoId)).thenReturn(Optional.of(todo));
+
+        mockMvc.perform(delete("/todos/{id}", todo.getId()))
+                .andExpect(status().isNoContent());
+
+        verify(todoRepository, times(1)).findById(todoId);
+        verify(todoRepository, times(1)).delete(any(Todo.class));
     }
 //
 //    @Test

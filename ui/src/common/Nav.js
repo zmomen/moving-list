@@ -6,7 +6,7 @@ const Nav = ({ data }) => {
   return (
     <header className={"header navbar"}>
       <section className={"navbar-section"}>
-        <a href="..." className={"navbar-brand mr-2"}>
+        <a href="/" className={"navbar-brand mr-2"}>
           <span role="img" aria-label="">Moving, Inc™️</span>
         </a>
       </section>

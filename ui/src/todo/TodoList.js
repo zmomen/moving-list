@@ -1,17 +1,23 @@
-import React, { useState } from "react";
+import React, { useCallback } from "react";
 import { dateFmt } from "../utils/helpers";
 import "./Todo.css";
 import Delete from "../common/icons/Delete";
 import CheckMark from "../common/icons/CheckMark";
 import Edit from "../common/icons/Edit";
+import Modal from "./Modal";
+import * as api from "../utils/api";
 
 const TodoList = (props) => {
   const headers = ["#", "Title", "Description", "Modified date", "Actions"];
 
-  const handleDelete = (todo) => {
-    console.warn("Deleted!", todo); 
-    
-  };
+  const handleDelete = useCallback((id) => {
+    api
+      .deleteTodo(id)
+      .then((res) => {
+        console.warn("deleted! response", res.status);
+      })
+      .catch((error) => console.warn("delete error", error));
+  }, []);
 
   return (
     <>
@@ -43,12 +49,12 @@ const TodoList = (props) => {
                             {dateFmt(todo.modifiedDate)}
                           </td>
                           <td style={{ width: "100px" }}>
-                            <span
-                              onClick={() => handleDelete(todo)}
+                            <a
+                              href={`#delete-modal${todo.id}`}
                               className={"todo-action-btn"}
                             >
                               <Delete />
-                            </span>
+                            </a>
                             <span
                               className={"todo-action-btn"}
                               onClick={() => console.warn("checked")}
@@ -62,6 +68,14 @@ const TodoList = (props) => {
                               <Edit />
                             </span>
                           </td>
+
+                          <Modal
+                            type={"deleting"}
+                            id={`delete-modal${todo.id}`}
+                            data={todo}
+                            title="Are you sure you want to delete this task?"
+                            deleteAction={handleDelete}
+                          ></Modal>
                         </tr>
                       </>
                     );
@@ -78,6 +92,6 @@ const TodoList = (props) => {
 
 export default TodoList;
 
-const Checkbox = ({ name, checked, onChange }) => (
-  <input type="checkbox" name={name} checked={checked} onChange={onChange} />
-);
+// const Checkbox = ({ name, checked, onChange }) => (
+//   <input type="checkbox" name={name} checked={checked} onChange={onChange} />
+// );
