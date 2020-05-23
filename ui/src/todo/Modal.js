@@ -1,8 +1,7 @@
 import React from "react";
 import { dateFmt } from "../utils/helpers";
 
-const Modal = ({ type, id, title, data }) => {
-  console.warn("my id", id);
+const Modal = ({ type, id, title, data, deleteAction, markCompleteAction }) => {
   return (
     <div className="docs-demo columns">
       <div className="column">
@@ -26,13 +25,21 @@ const Modal = ({ type, id, title, data }) => {
             {(function () {
               switch (type) {
                 case "marking-complete":
-                  return <></>;
+                  return (
+                    <MarkCompleteModal
+                      markCompleteAction={markCompleteAction}
+                      data={data}
+                    />
+                  );
                 case "deleting":
-                  return <DeleteModal data={data} />;
+                  return (
+                    <DeleteModal deleteAction={deleteAction} data={data} />
+                  );
                 case "editing":
                   return <></>;
                 case "completed":
                   return <CompletedTasksModalContent data={data} />;
+                default:
               }
             })()}
           </div>
@@ -73,7 +80,7 @@ export const CompletedTasksModalContent = ({ data }) => {
   );
 };
 
-export const DeleteModal = ({ deleteAction, data }) => {
+export const MarkCompleteModal = ({ data, markCompleteAction }) => {
   return (
     <>
       <div className="modal-body">
@@ -91,9 +98,51 @@ export const DeleteModal = ({ deleteAction, data }) => {
         </div>
       </div>
       <div className="modal-footer">
-        <div className="btn btn-link" onClick={() => deleteAction(data.id)}>
+        <a
+          href="#modals"
+          className="btn btn-link"
+          onClick={() => {
+            markCompleteAction(data);
+          }}
+        >
           Yes
+        </a>
+        <a className="btn btn-link" href="#modals">
+          No
+        </a>
+      </div>
+    </>
+  );
+};
+
+
+export const DeleteModal = ({ data, deleteAction }) => {
+  return (
+    <>
+      <div className="modal-body">
+        <div className="content">
+          {data && (
+            <>
+              <div>
+                {data.title} - {data.description}
+              </div>
+              <div className={"todo-completed-text"}>
+                {` - Modified on: ${dateFmt(data.modifiedDate)}`}
+              </div>
+            </>
+          )}
         </div>
+      </div>
+      <div className="modal-footer">
+        <a
+          href="#modals"
+          className="btn btn-link"
+          onClick={() => {
+            deleteAction(data);
+          }}
+        >
+          Yes
+        </a>
         <a className="btn btn-link" href="#modals">
           No
         </a>

@@ -8,16 +8,34 @@ import Modal from "./Modal";
 import * as api from "../utils/api";
 
 const TodoList = (props) => {
+  const { isNewData, setIsNewData } = props;
   const headers = ["#", "Title", "Description", "Modified date", "Actions"];
 
-  const handleDelete = useCallback((id) => {
-    api
-      .deleteTodo(id)
-      .then((res) => {
-        console.warn("deleted! response", res.status);
-      })
-      .catch((error) => console.warn("delete error", error));
-  }, []);
+  const handleDelete = useCallback(
+    (todo) => {
+      api
+        .deleteTodo(todo)
+        .then((res) => {
+          console.warn("deleted! response", res.status);
+          setIsNewData(!isNewData);
+        })
+        .catch((error) => console.warn("delete error", error));
+    },
+    [isNewData, setIsNewData]
+  );
+
+  const handleMarkComplete = useCallback(
+    (data) => {
+      api
+        .updateTodo(data)
+        .then((res) => {
+          console.warn("marked! response", res.status);
+          setIsNewData(!isNewData);
+        })
+        .catch((error) => console.warn("mark complete error", error));
+    },
+    [isNewData, setIsNewData]
+  );
 
   return (
     <>
@@ -55,12 +73,12 @@ const TodoList = (props) => {
                             >
                               <Delete />
                             </a>
-                            <span
+                            <a
+                              href={`#marking-complete-modal${todo.id}`}
                               className={"todo-action-btn"}
-                              onClick={() => console.warn("checked")}
                             >
                               <CheckMark />
-                            </span>
+                            </a>
                             <span
                               className={"todo-action-btn"}
                               onClick={() => console.warn("edited")}
@@ -68,14 +86,20 @@ const TodoList = (props) => {
                               <Edit />
                             </span>
                           </td>
-
                           <Modal
                             type={"deleting"}
                             id={`delete-modal${todo.id}`}
                             data={todo}
                             title="Are you sure you want to delete this task?"
                             deleteAction={handleDelete}
-                          ></Modal>
+                          />
+                          <Modal
+                            type={"marking-complete"}
+                            id={`marking-complete-modal${todo.id}`}
+                            data={todo}
+                            title="Mark this task as complete?"
+                            markCompleteAction={handleMarkComplete}
+                          />
                         </tr>
                       </>
                     );
@@ -91,7 +115,3 @@ const TodoList = (props) => {
 };
 
 export default TodoList;
-
-// const Checkbox = ({ name, checked, onChange }) => (
-//   <input type="checkbox" name={name} checked={checked} onChange={onChange} />
-// );

@@ -7,11 +7,13 @@
   background-color: rgb(101, 82, 134);
 }
 
-input,
-textarea,
 table,
 div {
   color: black;
+}
+
+textarea:focus, input:focus , input:not(:focus), textarea:not(:focus) {
+    color: black;
 }
 
 label {

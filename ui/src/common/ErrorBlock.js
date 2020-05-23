@@ -1,9 +1,9 @@
 import React from "react";
 
-export default function ErrorBlock({ errors }) {
+export default function ErrorBlock({ errors, message }) {
   return (
-    <div style={{ float: "right", color: "red" }}>
-      Error! Call failed!
+    <div style={{ float: "right", color: "darkred" }}>
+      Error! {message}
     </div>
   );
 }

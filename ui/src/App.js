@@ -17,8 +17,7 @@ const App = () => {
     api
       .getTodoCategories()
       .then((res) => {
-        setTodos({ data: res.data, errors: null });
-
+        // set nav bar
         let active = 0,
           completed = 0;
         res.data.forEach((element) => {
@@ -27,6 +26,13 @@ const App = () => {
           });
         });
         setTodoStatus({ completed: completed, active: active });
+
+        // filter for table.
+        res.data.map((todoCategory) => {
+          todoCategory.todos = todoCategory.todos.filter((t) => !t.completed);
+          return todoCategory;
+        });
+        setTodos({ data: res.data, errors: null });
       })
       .catch((error) => {
         console.warn("failed", { ...error });
@@ -39,7 +45,7 @@ const App = () => {
       api
         .createTodo(userInput)
         .then((res) => {
-          console.warn("Suces", res.data);
+          console.warn("Success", res.data);
           setIsNewData(!isNewData);
         })
         .catch(function (error) {
@@ -54,14 +60,22 @@ const App = () => {
   return (
     <div>
       <div className={"container grid-lg"}>
-        <Nav data={todoStatus}/>
-        
+        <Nav data={todoStatus} />
+
         <div className={"App-logo"}>
           <BannerImage className={"rounded"} width="350" height="300" />
           <AddTodo addTodo={addTodo} />
         </div>
-        {todos.errors !== null ? <ErrorBlock errors={todos.errors} /> : ""}
-        <TodoList data={todos.data} />
+        {todos.errors !== null ? (
+          <ErrorBlock message="api call failed!" errors={todos.errors} />
+        ) : (
+          ""
+        )}
+        <TodoList
+          data={todos.data}
+          isNewData={isNewData}
+          setIsNewData={setIsNewData}
+        />
       </div>
       <Footer />
     </div>
