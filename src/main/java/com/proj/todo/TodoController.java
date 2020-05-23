@@ -74,29 +74,6 @@ public class TodoController {
 
     }
 
-    @PatchMapping("/{id}")
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    public ResponseEntity<String> patchTodo(@PathVariable long id, @RequestBody TodoRequest todoRequest) {
-
-        if (!validateTodoRequest(todoRequest)) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        Optional<Todo> foundTodo = Optional.of(todoRepository.findById(id)).get();
-
-        if (!foundTodo.isPresent()) {
-            return ResponseEntity.notFound().build();
-        }
-        foundTodo.get().setTitle(todoRequest.getTitle());
-        foundTodo.get().setDescription(todoRequest.getDescription());
-        foundTodo.get().setCompleted(todoRequest.isCompleted());
-        foundTodo.get().setModifiedDate(new Date());
-
-
-        todoRepository.save(foundTodo.get());
-        return ResponseEntity.ok("Updated!");
-    }
-
     @PutMapping("/{id}")
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<String> updateTodo(@PathVariable long id, @RequestBody TodoRequest todoRequest) {
@@ -126,39 +103,5 @@ public class TodoController {
 
         todoRepository.delete(Todo.builder().id(id).build());
         return ResponseEntity.noContent().build();
-    }
-
-    private boolean validateTodoRequest(TodoRequest todoRequest) {
-        return todoRequest != null;
-
-//        String tempTitle = "", tempDesc = "", tempCategory = "";
-//        // CHECK REQUEST.
-//         if (todoRequest.getTitle() != null && !todoRequest.getTitle().equals("")) {
-//            tempTitle = todoRequest.getTitle();
-//        }
-//
-//        if (todoRequest.getDescription() != null && !todoRequest.getDescription().equals("")) {
-//            tempDesc = todoRequest.getDescription();
-//        }
-//
-//        if (todoRequest.getCategory() != null && !todoRequest.getCategory().equals("")) {
-//            tempCategory = todoRequest.getCategory();
-//        }
-//
-////        if anyting useful, use it.
-//        Todo maybeTodo = new Todo();
-//
-//        if (!tempTitle.equals("")) {
-//            maybeTodo.setTitle(tempTitle);
-//        }
-//
-//        if (!tempDesc.equals("")) {
-//            maybeTodo.setDescription(tempDesc);
-//        }
-//
-//        if (!tempCategory.equals("")) {
-//            maybeTodo.setTodoCategory(TodoCategory.builder().category(tempCategory).build());
-//        }
-
     }
 }

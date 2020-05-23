@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.http.MediaType;
@@ -14,6 +15,7 @@ import java.util.*;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -31,6 +33,8 @@ public class TodoControllerTest {
 
     @Mock
     private TodoCategoryRepository todoCategoryRepository;
+
+    ArgumentCaptor<Todo> captor = ArgumentCaptor.forClass(Todo.class);
 
     @Before
     public void setup() {
@@ -151,25 +155,32 @@ public class TodoControllerTest {
         verify(todoRepository, times(1)).findById(todoId);
         verify(todoRepository, times(1)).delete(any(Todo.class));
     }
-//
-//    @Test
-//    public void givenTodo_whenUpdateTodo_thenReturnOK() throws Exception {
-//
-////        mockMvc.perform(put("/todos/{id}", mockTodo.getId())
-////                .contentType(MediaType.APPLICATION_JSON)
-////                .body(asJsonString(mockTodo)))
-////                .andExpect(status().isOk())
-////                .andExpect(content().string("CREATED!"));
-////
-////        verify(todoRepository, times(1)).save();
-//    }
 
-//    @Test
-//    public void givenTodos_whenGetAll_thenReturnTodos() throws Exception {
-//        mockMvc.perform(get("/todos/all")
-//                .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk());
-//    }
+    @Test
+    public void givenTodo_whenUpdateTodo_thenReturnOK() throws Exception {
+        long id = 1L;
+        Todo existing = Todo.builder().id(id).build();
+        TodoRequest request = TodoRequest.builder()
+                .title("title")
+                .description("updated desc")
+                .completed(false)
+                .build();
+
+        when(todoRepository.findById(id))
+                .thenReturn(Optional.of(existing));
+
+        mockMvc.perform(put("/todos/{id}", id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(request)))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Updated!"));
+
+        verify(todoRepository, times(1)).save(captor.capture());
+
+        assertEquals(request.getTitle() ,captor.getValue().getTitle());
+        assertEquals(request.getDescription() ,captor.getValue().getDescription());
+        assertEquals(request.isCompleted() ,captor.getValue().isCompleted());
+    }
 
     /*
      * converts a Java object into JSON representation
