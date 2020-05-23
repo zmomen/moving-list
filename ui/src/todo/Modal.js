@@ -71,7 +71,7 @@ export const CompletedTasksModalContent = ({ data }) => {
               return (
                 <div className={"todo-completed-block"}>
                   <div className={"todo-completed-block"}>
-                    &#10003; {todo.title}
+                    &#10003; {todo.title} {todo.description.substring(0,20)}...
                   </div>
                   <div className={"todo-modal-text"}>
                     {` - Completed on: ${dateFmt(todo.modifiedDate)}`}

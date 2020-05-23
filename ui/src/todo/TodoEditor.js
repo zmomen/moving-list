@@ -46,7 +46,7 @@ const TodoEditor = (props) => {
     >
       <div className={"form-group black"}>
         <label className={`${props.type === "Add" ? "todo-lbl" : ""}`}>
-          Title
+          Name
         </label>
         <input
           className={"form-input black"}

@@ -6,10 +6,11 @@ import CheckMark from "../common/icons/CheckMark";
 import Edit from "../common/icons/Edit";
 import Modal from "./Modal";
 import * as api from "../utils/api";
+import { capitalizeFirstLetter } from "../utils/helpers";
 
 const TodoList = (props) => {
   const { isNewData, setIsNewData } = props;
-  const headers = ["#", "Title", "Description", "Modified date", "Actions"];
+  const headers = ["Name", "Description", "Modified date", "Actions"];
 
   const handleDelete = useCallback(
     (todo) => {
@@ -59,14 +60,12 @@ const TodoList = (props) => {
         {props.data.map((element, index) => {
           return (
             <div key={index}>
-              <b className={"todo-category"}>{element.category}</b>
+              <b className={"todo-category"}>{element.category.toUpperCase()}</b>
               <table className={"table table-striped"}>
                 <thead>
                   <tr>
                     {headers.map((element, hd) => (
-                      <th key={hd}>
-                        {element.charAt(0).toUpperCase() + element.slice(1)}
-                      </th>
+                      <th key={hd}>{capitalizeFirstLetter(element)}</th>
                     ))}
                   </tr>
                 </thead>
@@ -75,9 +74,8 @@ const TodoList = (props) => {
                     return (
                       <>
                         <tr key={idx} className={idx % 2 === 0 ? "active" : ""}>
-                          <td style={{ width: "50px" }}>{todo.id}</td>
-                          <td style={{ width: "180px" }}>{todo.title}</td>
-                          <td style={{ width: "414px" }}>{todo.description}</td>
+                          <td style={{ width: "140px" }}>{todo.title}</td>
+                          <td style={{ width: "444px" }}>{todo.description}</td>
                           <td style={{ width: "200px" }}>
                             {dateFmt(todo.modifiedDate)}
                           </td>

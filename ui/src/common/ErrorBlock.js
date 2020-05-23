@@ -1,12 +1,25 @@
 import React from "react";
 
 export default function ErrorBlock({ errors, message }) {
-  const isError = message.includes("Error");
+  let colorStyle;
+  switch (true) {
+    case message.includes("Error"):
+      colorStyle = "darkred";
+      break;
+    case message.includes("Add"):
+      colorStyle = "white";
+      break;
+    case message.includes("Edit"):
+      colorStyle = "black";
+      break;
+    default:
+  }
+
   return (
     <div
       style={{
         float: "right",
-        color: isError ? "darkred" : "white",
+        color: colorStyle,
       }}
     >
       {message}
