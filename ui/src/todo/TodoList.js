@@ -26,8 +26,9 @@ const TodoList = (props) => {
 
   const handleMarkComplete = useCallback(
     (todo) => {
+      todo["completed"] = true;
       api
-        .updateTodo(todo, true)
+        .updateTodo(todo)
         .then((res) => {
           console.warn("marked! response", res.status);
           setIsNewData(!isNewData);
@@ -39,9 +40,9 @@ const TodoList = (props) => {
 
   const handleEdit = useCallback(
     (todo, id) => {
-      console.warn("handle,", todo, id);
+      let editData = { id: id, ...todo };
       api
-        .updateTodo(todo, id)
+        .updateTodo(editData)
         .then((res) => {
           console.warn("edited! response", res.status);
           setIsNewData(!isNewData);
@@ -99,27 +100,27 @@ const TodoList = (props) => {
                             >
                               <Edit />
                             </a>
-                          <Modal
-                            type={"deleting"}
-                            id={`delete-modal${todo.id}`}
-                            data={todo}
-                            title="Are you sure you want to delete this task?"
-                            deleteAction={handleDelete}
-                          />
-                          <Modal
-                            type={"marking-complete"}
-                            id={`marking-complete-modal${todo.id}`}
-                            data={todo}
-                            title="Mark this task as complete?"
-                            markCompleteAction={handleMarkComplete}
-                          />
-                          <Modal
-                            type={"editing"}
-                            id={`edit-modal${todo.id}`}
-                            data={todo}
-                            title="Edit task"
-                            editAction={handleEdit}
-                          />
+                            <Modal
+                              type={"deleting"}
+                              id={`delete-modal${todo.id}`}
+                              data={todo}
+                              title="Are you sure you want to delete this task?"
+                              deleteAction={handleDelete}
+                            />
+                            <Modal
+                              type={"marking-complete"}
+                              id={`marking-complete-modal${todo.id}`}
+                              data={todo}
+                              title="Mark this task as complete?"
+                              markCompleteAction={handleMarkComplete}
+                            />
+                            <Modal
+                              type={"editing"}
+                              id={`edit-modal${todo.id}`}
+                              data={todo}
+                              title="Edit task"
+                              editAction={handleEdit}
+                            />
                           </td>
                         </tr>
                       </>

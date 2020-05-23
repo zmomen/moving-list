@@ -5,7 +5,7 @@ var config = {
 };
 
 var instance = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: "http://192.168.0.224:8080",
 });
 
 export function getTodoCategories() {
@@ -16,16 +16,15 @@ export function getTodoStatus() {
   return instance.get("/todos/status", config);
 }
 
-export function updateTodo(todo, id, isCompleted = false) {
-  let todoId = todo.id || id;
+export function updateTodo(todo) {
   let request = {
-    id: todoId,
+    id: todo.id,
     title: todo.title,
     description: todo.description,
     category: todo.category || todo.todoCategory.category,
-    completed: isCompleted,
+    completed: todo.completed,
   };
-  return instance.put(`/todos/${todoId}`, request, config);
+  return instance.put(`/todos/${todo.id}`, request, config);
 }
 
 export function createTodo(todo) {

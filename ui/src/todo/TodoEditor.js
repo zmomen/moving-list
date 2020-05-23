@@ -3,7 +3,7 @@ import "./Todo.css";
 import ErrorBlock from "../common/ErrorBlock";
 
 const TodoEditor = (props) => {
-  const [errMsg, setErrMsg] = useState("");
+  const [msg, setMsg] = useState("");
   const [userInput, setUserInput] = useReducer(
     (state, newState) => ({ ...state, ...newState }),
     {
@@ -19,7 +19,7 @@ const TodoEditor = (props) => {
       userInput["description"] === "" ||
       userInput["category"] === ""
     ) {
-      setErrMsg("Invalid input! Please retry.");
+      setMsg("Error: Invalid input! Please retry.");
       return false;
     }
     return true;
@@ -29,14 +29,16 @@ const TodoEditor = (props) => {
     const name = evt.target.name;
     const newValue = evt.target.value;
     setUserInput({ [name]: newValue });
-    setErrMsg("");
+    setMsg("");
   };
 
   const handleButtonClick = () => {
-    isInputValid() &&
-      (props.type === "Add"
+    if (isInputValid()) {
+      props.type === "Add"
         ? props.addTodo(userInput)
-        : props.editTodo(userInput, props.data.id));
+        : props.editTodo(userInput, props.data.id);
+      setMsg("Task " + props.type + "ed!");
+    }
   };
   return (
     <div
@@ -76,9 +78,9 @@ const TodoEditor = (props) => {
         </div>
       </div>
       <button className={"btn btn-success"} onClick={() => handleButtonClick()}>
-        {props.type} Todo
+        {props.type} Task
       </button>
-      {errMsg !== "" && <ErrorBlock message={errMsg} />}
+      {msg !== "" && <ErrorBlock message={msg} />}
     </div>
   );
 };

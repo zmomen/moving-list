@@ -18,6 +18,8 @@ div {
   color: black;
 }
 
+td { white-space:pre }
+
 textarea:focus, input:focus , input:not(:focus), textarea:not(:focus) {
     color: black;
 }
