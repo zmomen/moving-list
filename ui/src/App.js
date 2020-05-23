@@ -5,7 +5,7 @@ import BannerImage from "./common/BannerImage";
 import ErrorBlock from "./common/ErrorBlock";
 import Footer from "./common/Footer";
 import TodoList from "./todo/TodoList";
-import AddTodo from "./todo/AddTodo";
+import TodoEditor from "./todo/TodoEditor";
 import * as api from "./utils/api";
 import Nav from "./common/Nav";
 
@@ -64,7 +64,7 @@ const App = () => {
 
         <div className={"App-logo"}>
           <BannerImage className={"rounded"} width="350" height="300" />
-          <AddTodo addTodo={addTodo} />
+          <TodoEditor type={"Add"} addTodo={addTodo} />
         </div>
         {todos.errors !== null ? (
           <ErrorBlock message="api call failed!" errors={todos.errors} />

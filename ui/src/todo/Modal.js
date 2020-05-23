@@ -1,7 +1,16 @@
 import React from "react";
 import { dateFmt } from "../utils/helpers";
+import TodoEditor from "./TodoEditor";
 
-const Modal = ({ type, id, title, data, deleteAction, markCompleteAction }) => {
+const Modal = ({
+  type,
+  id,
+  title,
+  data,
+  deleteAction,
+  markCompleteAction,
+  editAction,
+}) => {
   return (
     <div className="docs-demo columns">
       <div className="column">
@@ -35,8 +44,9 @@ const Modal = ({ type, id, title, data, deleteAction, markCompleteAction }) => {
                   return (
                     <DeleteModal deleteAction={deleteAction} data={data} />
                   );
+
                 case "editing":
-                  return <></>;
+                  return <EditModal editAction={editAction} data={data} />;
                 case "completed":
                   return <CompletedTasksModalContent data={data} />;
                 default:
@@ -63,7 +73,7 @@ export const CompletedTasksModalContent = ({ data }) => {
                   <div className={"todo-completed-block"}>
                     &#10003; {todo.title}
                   </div>
-                  <div className={"todo-completed-text"}>
+                  <div className={"todo-modal-text"}>
                     {` - Completed on: ${dateFmt(todo.modifiedDate)}`}
                   </div>
                 </div>
@@ -90,7 +100,7 @@ export const MarkCompleteModal = ({ data, markCompleteAction }) => {
               <div>
                 {data.title} - {data.description}
               </div>
-              <div className={"todo-completed-text"}>
+              <div className={"todo-modal-text"}>
                 {` - Modified on: ${dateFmt(data.modifiedDate)}`}
               </div>
             </>
@@ -115,7 +125,6 @@ export const MarkCompleteModal = ({ data, markCompleteAction }) => {
   );
 };
 
-
 export const DeleteModal = ({ data, deleteAction }) => {
   return (
     <>
@@ -126,7 +135,7 @@ export const DeleteModal = ({ data, deleteAction }) => {
               <div>
                 {data.title} - {data.description}
               </div>
-              <div className={"todo-completed-text"}>
+              <div className={"todo-modal-text"}>
                 {` - Modified on: ${dateFmt(data.modifiedDate)}`}
               </div>
             </>
@@ -145,6 +154,30 @@ export const DeleteModal = ({ data, deleteAction }) => {
         </a>
         <a className="btn btn-link" href="#modals">
           No
+        </a>
+      </div>
+    </>
+  );
+};
+
+export const EditModal = ({ data, editAction }) => {
+  return (
+    <>
+      <div className="modal-body">
+        <div className="content">
+          {data && (
+            <>
+              <TodoEditor type={"Edit"} data={data} editTodo={editAction} />
+              <div className={"todo-modal-text"}>
+                {` - Modified on: ${dateFmt(data.modifiedDate)}`}
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+      <div className="modal-footer">
+        <a className="btn btn-link" href="#modals">
+          Close
         </a>
       </div>
     </>

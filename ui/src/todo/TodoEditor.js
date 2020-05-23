@@ -2,14 +2,14 @@ import React, { useReducer, useState } from "react";
 import "./Todo.css";
 import ErrorBlock from "../common/ErrorBlock";
 
-const AddTodo = (props) => {
+const TodoEditor = (props) => {
   const [errMsg, setErrMsg] = useState("");
   const [userInput, setUserInput] = useReducer(
     (state, newState) => ({ ...state, ...newState }),
     {
-      title: "",
-      description: "",
-      category: "",
+      title: props.data ? props.data.title : "",
+      description: props.data ? props.data.description : "",
+      category: props.data ? props.data.todoCategory.category : "",
     }
   );
 
@@ -31,10 +31,21 @@ const AddTodo = (props) => {
     setUserInput({ [name]: newValue });
     setErrMsg("");
   };
+
+  const handleButtonClick = () => {
+    isInputValid() &&
+      (props.type === "Add"
+        ? props.addTodo(userInput)
+        : props.editTodo(userInput, props.data.id));
+  };
   return (
-    <div className={"add-btn black"}>
+    <div
+      className={`${props.type === "Add" ? "todo-bg" : ""} todo-action black`}
+    >
       <div className={"form-group black"}>
-        <label>Title</label>
+        <label className={`${props.type === "Add" ? "todo-lbl" : ""}`}>
+          Title
+        </label>
         <input
           className={"form-input black"}
           type="text"
@@ -42,7 +53,9 @@ const AddTodo = (props) => {
           value={userInput.title}
           onChange={handleChange}
         />
-        <label>Category</label>
+        <label className={`${props.type === "Add" ? "todo-lbl" : ""}`}>
+          Category
+        </label>
         <input
           className={"form-input black"}
           type="text"
@@ -50,7 +63,9 @@ const AddTodo = (props) => {
           value={userInput.category}
           onChange={handleChange}
         />
-        <label>Description</label>
+        <label className={`${props.type === "Add" ? "todo-lbl" : ""}`}>
+          Description
+        </label>
         <div className={"margins"}>
           <textarea
             className={"form-input black"}
@@ -60,15 +75,12 @@ const AddTodo = (props) => {
           />
         </div>
       </div>
-      <button
-        className={"btn btn-success"}
-        onClick={() => isInputValid() && props.addTodo(userInput)}
-      >
-        Add Todo
+      <button className={"btn btn-success"} onClick={() => handleButtonClick()}>
+        {props.type} Todo
       </button>
       {errMsg !== "" && <ErrorBlock message={errMsg} />}
     </div>
   );
 };
 
-export default AddTodo;
+export default TodoEditor;

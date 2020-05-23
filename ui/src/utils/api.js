@@ -16,14 +16,16 @@ export function getTodoStatus() {
   return instance.get("/todos/status", config);
 }
 
-export function updateTodo(todo) {
+export function updateTodo(todo, id, isCompleted = false) {
+  let todoId = todo.id || id;
   let request = {
+    id: todoId,
     title: todo.title,
     description: todo.description,
-    category: todo.todoCategory.category,
-    completed: true,
+    category: todo.category || todo.todoCategory.category,
+    completed: isCompleted,
   };
-  return instance.put(`/todos/${todo.id}`, request, config);
+  return instance.put(`/todos/${todoId}`, request, config);
 }
 
 export function createTodo(todo) {

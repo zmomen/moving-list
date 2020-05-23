@@ -1,10 +1,16 @@
-.add-btn {
+.todo-action {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   padding: 1rem;
   border-radius: 10px;
-  background-color: rgb(101, 82, 134);
+}
+
+.todo-bg {
+    background-color: rgb(101, 82, 134);
+}
+.todo-lbl {
+  color: white;
 }
 
 table,
@@ -14,10 +20,6 @@ div {
 
 textarea:focus, input:focus , input:not(:focus), textarea:not(:focus) {
     color: black;
-}
-
-label {
-  color: white;
 }
 
 .todo-badge > * {
@@ -39,7 +41,7 @@ label {
   color: rgb(101, 82, 134);
 }
 
-.todo-completed-text {
+.todo-modal-text {
   font-style: italic;
   color: gray;
   font-size: small;

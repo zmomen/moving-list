@@ -25,14 +25,28 @@ const TodoList = (props) => {
   );
 
   const handleMarkComplete = useCallback(
-    (data) => {
+    (todo) => {
       api
-        .updateTodo(data)
+        .updateTodo(todo, true)
         .then((res) => {
           console.warn("marked! response", res.status);
           setIsNewData(!isNewData);
         })
         .catch((error) => console.warn("mark complete error", error));
+    },
+    [isNewData, setIsNewData]
+  );
+
+  const handleEdit = useCallback(
+    (todo, id) => {
+      console.warn("handle,", todo, id);
+      api
+        .updateTodo(todo, id)
+        .then((res) => {
+          console.warn("edited! response", res.status);
+          setIsNewData(!isNewData);
+        })
+        .catch((error) => console.warn("edit error", error));
     },
     [isNewData, setIsNewData]
   );
@@ -79,13 +93,12 @@ const TodoList = (props) => {
                             >
                               <CheckMark />
                             </a>
-                            <span
+                            <a
+                              href={`#edit-modal${todo.id}`}
                               className={"todo-action-btn"}
-                              onClick={() => console.warn("edited")}
                             >
                               <Edit />
-                            </span>
-                          </td>
+                            </a>
                           <Modal
                             type={"deleting"}
                             id={`delete-modal${todo.id}`}
@@ -100,6 +113,14 @@ const TodoList = (props) => {
                             title="Mark this task as complete?"
                             markCompleteAction={handleMarkComplete}
                           />
+                          <Modal
+                            type={"editing"}
+                            id={`edit-modal${todo.id}`}
+                            data={todo}
+                            title="Edit task"
+                            editAction={handleEdit}
+                          />
+                          </td>
                         </tr>
                       </>
                     );

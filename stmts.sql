@@ -24,3 +24,4 @@ create TABLE todo (
     CONSTRAINT fk_categorytodo FOREIGN KEY (category_id)
     REFERENCES todo_category(id));
 
+ALTER TABLE todo MODIFY COLUMN DESCRIPTION TEXT;
