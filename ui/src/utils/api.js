@@ -5,7 +5,7 @@ var config = {
 };
 
 var instance = axios.create({
-  baseURL: "http://192.168.0.224:8080",
+  baseURL: "http://192.168.0.27:8080",
 });
 
 export function getTodoCategories() {
