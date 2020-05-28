@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("todo-categories")
@@ -22,7 +23,16 @@ public class TodoCategoryController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     public @ResponseBody
     List<TodoCategory> listAllCategories() {
-        return todoCategoryRepository.findAll();
+        return todoCategoryRepository.findAll().stream()
+                .sorted((c1, c2) -> (int) (c1.getId() - c2.getId()))
+                .map(c -> {
+                    List<Todo> todos = c.getTodos()
+                            .stream()
+                            .sorted((o1, o2) -> (int) (o2.getId() - o1.getId()))
+                            .collect(Collectors.toList());
+                    c.setTodos(todos);
+                    return c;
+                }).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")

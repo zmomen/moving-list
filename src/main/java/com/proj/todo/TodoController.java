@@ -27,7 +27,7 @@ public class TodoController {
     @GetMapping
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity listAll() {
-        return ResponseEntity.ok(todoRepository.findAll());
+        return ResponseEntity.ok(todoRepository.findAllByOrderByIdDesc());
     }
 
     @GetMapping("/status")
