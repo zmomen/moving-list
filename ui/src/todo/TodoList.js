@@ -10,7 +10,7 @@ import { capitalizeFirstLetter } from "../utils/helpers";
 
 const TodoList = (props) => {
   const { isNewData, setIsNewData } = props;
-  const headers = ["Name", "Description", "Modified date", "Actions"];
+  const headers = ["Name", "Description", "Due Date", "Actions"];
 
   const handleDelete = useCallback(
     (todo) => {
@@ -77,7 +77,7 @@ const TodoList = (props) => {
                           <td style={{ width: "140px" }}>{todo.title}</td>
                           <td style={{ width: "444px" }}>{todo.description}</td>
                           <td style={{ width: "200px" }}>
-                            {dateFmt(todo.modifiedDate)}
+                            {dateFmt(todo.dueDate)}
                           </td>
                           <td style={{ width: "100px" }}>
                             <a

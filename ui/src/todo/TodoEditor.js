@@ -1,6 +1,7 @@
 import React, { useReducer, useState } from "react";
 import "./Todo.css";
 import ErrorBlock from "../common/ErrorBlock";
+import { customDateFormat } from "../utils/helpers";
 
 const TodoEditor = (props) => {
   const [msg, setMsg] = useState("");
@@ -10,6 +11,9 @@ const TodoEditor = (props) => {
       title: props.data ? props.data.title : "",
       description: props.data ? props.data.description : "",
       category: props.data ? props.data.todoCategory.category : "",
+      dueDate: props.data
+        ? customDateFormat(props.data.dueDate)
+        : customDateFormat(),
     }
   );
 
@@ -40,6 +44,7 @@ const TodoEditor = (props) => {
       setMsg("Task " + props.type + "ed!");
     }
   };
+
   return (
     <div
       className={`${props.type === "Add" ? "todo-bg" : ""} todo-action black`}
@@ -76,6 +81,16 @@ const TodoEditor = (props) => {
             onChange={handleChange}
           />
         </div>
+        <label className={`${props.type === "Add" ? "todo-lbl" : ""}`}>
+          Due Date
+        </label>
+        <input
+          className={"form-input black"}
+          type="datetime-local"
+          defaultValue={userInput.dueDate}
+          name="dueDate"
+          onChange={handleChange}
+        />
       </div>
       <button className={"btn btn-success"} onClick={() => handleButtonClick()}>
         {props.type} Task

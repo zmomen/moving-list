@@ -15,12 +15,11 @@ create TABLE todo (
     title VARCHAR(50) NOT NULL, 
     DESCRIPTION VARCHAR(50), 
     completed BOOLEAN,
-    created_dt DATE,
-    modified_dt DATE,
+    created_dt DATETIME,
+    modified_dt DATETIME,
     PRIMARY KEY(id),
     CONSTRAINT fk_categorytodo FOREIGN KEY (category_id)
     REFERENCES todo_category(id));
 
 ALTER TABLE todo MODIFY COLUMN DESCRIPTION TEXT;
-ALTER TABLE todo MODIFY COLUMN created_dt DATETIME;
-ALTER TABLE todo MODIFY COLUMN modified_dt DATETIME;
+ALTER TABLE TODO CHANGE CREATED_DT DUE_DT DATETIME;

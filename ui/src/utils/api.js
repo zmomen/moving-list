@@ -23,12 +23,12 @@ export function updateTodo(todo) {
     description: todo.description,
     category: todo.category || todo.todoCategory.category,
     completed: todo.completed,
+    dueDate: todo.dueDate,
   };
   return instance.put(`/todos/${todo.id}`, request, config);
 }
 
 export function createTodo(todo) {
-  console.warn("createdata", todo);
   return instance.post("/todos", todo, config);
 }
 

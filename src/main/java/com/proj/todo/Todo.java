@@ -48,8 +48,8 @@ public class Todo {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "created_dt")
-    private Date createdAt;
+    @Column(name = "due_dt")
+    private Date dueDate;
 
     @Column(name = "modified_dt")
     private Date modifiedDate;
