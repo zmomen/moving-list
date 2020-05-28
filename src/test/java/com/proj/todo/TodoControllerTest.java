@@ -72,6 +72,7 @@ public class TodoControllerTest {
                 .title("title")
                 .description("desc")
                 .category(mockedCategory)
+                .dueDate(new Date())
                 .completed(false)
                 .build();
 
@@ -95,6 +96,7 @@ public class TodoControllerTest {
                 .title("title")
                 .description("desc")
                 .category(mockedCategory)
+                .dueDate(new Date())
                 .completed(false)
                 .build();
 
@@ -163,6 +165,7 @@ public class TodoControllerTest {
         TodoRequest request = TodoRequest.builder()
                 .title("title")
                 .description("updated desc")
+                .dueDate(new Date())
                 .completed(false)
                 .build();
 
