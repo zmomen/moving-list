@@ -12,26 +12,34 @@ import Nav from "./common/Nav";
 const App = () => {
   const [todoStatus, setTodoStatus] = useState({ completed: 0, active: 0 });
   const [todos, setTodos] = useState({ data: [], errors: null });
+  const [persons, setPersons] = useState(new Set());
   const [isNewData, setIsNewData] = useState(false);
   useEffect(() => {
     api
       .getTodoCategories()
       .then((res) => {
-        // set nav bar
+        let personsArr = new Set();
         let active = 0,
           completed = 0;
-        res.data.forEach((element) => {
-          element.todos.forEach((todo) => {
+        res.data.forEach((todoCategory) => {
+          todoCategory.todos.forEach((todo) => {
+            // set nav bar counts
             todo.completed ? completed++ : active++;
+            // filter for table.
+            todoCategory.todos = todoCategory.todos.filter((t) => !t.completed);
+            return todoCategory;
+          });
+
+          // add persons.
+          res.data.forEach((todoCategory) => {
+            todoCategory.todos.forEach((todo) => {
+              personsArr.add(todo.title);
+            });
           });
         });
-        setTodoStatus({ completed: completed, active: active });
 
-        // filter for table.
-        res.data.map((todoCategory) => {
-          todoCategory.todos = todoCategory.todos.filter((t) => !t.completed);
-          return todoCategory;
-        });
+        setPersons(personsArr);
+        setTodoStatus({ completed: completed, active: active });
         setTodos({ data: res.data, errors: null });
       })
       .catch((error) => {
@@ -61,7 +69,6 @@ const App = () => {
     <div>
       <div className={"container grid-lg"}>
         <Nav data={todoStatus} />
-
         <div className={"App-logo"}>
           <BannerImage className={"rounded"} width="350" height="300" />
           <TodoEditor type={"Add"} addTodo={addTodo} />
@@ -71,6 +78,7 @@ const App = () => {
         ) : (
           ""
         )}
+        Filters: {persons}
         <TodoList
           data={todos.data}
           isNewData={isNewData}
