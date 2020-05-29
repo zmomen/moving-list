@@ -13,6 +13,10 @@ const App = () => {
   const [todoStatus, setTodoStatus] = useState({ completed: 0, active: 0 });
   const [todos, setTodos] = useState({ data: [], errors: null });
   const [persons, setPersons] = useState(new Set());
+  const [filteredData, setFilteredData] = useState({
+    data: [],
+    isFiltered: -1,
+  });
   const [isNewData, setIsNewData] = useState(false);
   useEffect(() => {
     api
@@ -46,7 +50,7 @@ const App = () => {
         console.warn("failed", { ...error });
         setTodos({ data: [], errors: error });
       });
-  }, [isNewData]);
+  }, [filteredData, isNewData]);
 
   const addTodo = useCallback(
     (userInput) => {
@@ -65,6 +69,21 @@ const App = () => {
     [isNewData]
   );
 
+  const handleFilter = useCallback((evt, idx) => {
+    // if filter exists, reset it
+    if (filteredData.isFiltered !== -1) {
+      setFilteredData({ data: [], isFiltered: -1 });
+    } else {
+    // else apply filter.
+      let filtered = [...todos.data];
+      filtered.map((cat) => {
+        cat.todos = cat.todos.filter((t) => t.title === evt.target.value);
+        return cat;
+      });
+      setFilteredData({ data: filtered, isFiltered: idx });
+    }
+  }, [todos, filteredData]);
+
   return (
     <div>
       <div className={"container grid-lg"}>
@@ -78,9 +97,25 @@ const App = () => {
         ) : (
           ""
         )}
-        Filters: {persons}
+        <div className={"filter"}>
+          <div style={{ paddingTop: "5px" }}>Filters:</div>
+          {Array.from(persons).map((pp, idx) => {
+            return (
+              <button
+                key={idx}
+                className={`btn ${
+                  filteredData.isFiltered === idx ? "btn-primary" : ""
+                }`}
+                value={pp}
+                onClick={(e) => handleFilter(e, idx)}
+              >
+                {pp}
+              </button>
+            );
+          })}
+        </div>
         <TodoList
-          data={todos.data}
+          data={filteredData.isFiltered === -1 ? todos.data : filteredData.data}
           isNewData={isNewData}
           setIsNewData={setIsNewData}
         />
