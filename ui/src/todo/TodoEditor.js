@@ -50,7 +50,7 @@ const TodoEditor = (props) => {
       className={`${props.type === "Add" ? "todo-bg" : ""} todo-action black`}
     >
       <div className={"form-group black"}>
-        <label className={`${props.type === "Add" ? "todo-lbl" : ""}`}>
+        <label className={`${props.type === "Add" ? "todo-labels" : ""}`}>
           Name
         </label>
         <input
@@ -60,7 +60,7 @@ const TodoEditor = (props) => {
           value={userInput.title}
           onChange={handleChange}
         />
-        <label className={`${props.type === "Add" ? "todo-lbl" : ""}`}>
+        <label className={`${props.type === "Add" ? "todo-labels" : ""}`}>
           Category
         </label>
         <input
@@ -70,7 +70,7 @@ const TodoEditor = (props) => {
           value={userInput.category}
           onChange={handleChange}
         />
-        <label className={`${props.type === "Add" ? "todo-lbl" : ""}`}>
+        <label className={`${props.type === "Add" ? "todo-labels" : ""}`}>
           Description
         </label>
         <div className={"margins"}>
@@ -81,7 +81,7 @@ const TodoEditor = (props) => {
             onChange={handleChange}
           />
         </div>
-        <label className={`${props.type === "Add" ? "todo-lbl" : ""}`}>
+        <label className={`${props.type === "Add" ? "todo-labels" : ""}`}>
           Due Date
         </label>
         <input

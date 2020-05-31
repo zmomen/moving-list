@@ -6,13 +6,6 @@
   border-radius: 10px;
 }
 
-.todo-bg {
-    background-color: rgb(101, 82, 134);
-}
-.todo-lbl {
-  color: white;
-}
-
 table,
 div {
   color: black;
@@ -58,4 +51,16 @@ textarea:focus, input:focus , input:not(:focus), textarea:not(:focus) {
 
 .todo-action-btn {
   cursor: pointer;
+}
+
+.todo-bg {
+    background-color: rgb(101, 82, 134);
+}
+.todo-labels {
+  color: white;
+}
+
+.todo-list-spacing {
+  display: flex;
+  flex-direction: row;
 }
