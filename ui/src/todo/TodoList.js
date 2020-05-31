@@ -216,9 +216,7 @@ export const EditModal = ({ editModal, setEditModal, editAction }) => {
         >
           &nbsp;
         </div>
-        <div className="modal-title h5">Edit task</div>
       </div>
-
       <div className="modal-body">
         <div className="content">
           {editModal.data && (
@@ -228,21 +226,11 @@ export const EditModal = ({ editModal, setEditModal, editAction }) => {
                 data={editModal.data}
                 editTodo={editAction}
               />
-              <div className={"todo-modal-text"}>
+              <div className={"todo-modal-text float-right"}>
                 {` - Modified on: ${dateFmt(editModal.data.modifiedDate)}`}
               </div>
             </>
           )}
-        </div>
-      </div>
-      <div className="modal-footer">
-        <div
-          className="btn btn-link"
-          onClick={() => {
-            setEditModal({ data: {}, isOpen: false });
-          }}
-        >
-          Close
         </div>
       </div>
     </>

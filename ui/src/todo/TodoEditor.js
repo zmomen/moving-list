@@ -49,6 +49,7 @@ const TodoEditor = (props) => {
     <div
       className={`${props.type === "Add" ? "todo-bg" : ""} todo-action black`}
     >
+      {props.type === "Edit" && <div className="modal-title h5">Edit task</div>}
       <div className={"form-group black"}>
         <label className={`${props.type === "Add" ? "todo-labels" : ""}`}>
           Name
@@ -93,7 +94,7 @@ const TodoEditor = (props) => {
         />
       </div>
       <button className={"btn btn-success"} onClick={() => handleButtonClick()}>
-        {props.type} Task
+        {props.type}
       </button>
       {msg !== "" && <ErrorBlock message={msg} />}
     </div>
