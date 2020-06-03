@@ -8,6 +8,7 @@ import Modal from "./Modal";
 import * as api from "../utils/api";
 import { capitalizeFirstLetter } from "../utils/helpers";
 import TodoEditor from "./TodoEditor";
+import { Sticky, StickyContainer } from "react-sticky";
 
 const TodoList = (props) => {
   const { isNewData, setIsNewData, persons, data } = props;
@@ -189,15 +190,21 @@ const TodoList = (props) => {
             })}
         </div>
       </div>
-      <div style={{ paddingTop: "8rem" }}>
-        {editModal.isOpen && (
-          <EditModal
-            editModal={editModal}
-            setEditModal={setEditModal}
-            editAction={handleEdit}
-          />
-        )}
-      </div>
+      {editModal.isOpen && (
+        <StickyContainer>
+          <Sticky>
+            {({ style }) => (
+              <div style={style}>
+                <EditModal
+                  editModal={editModal}
+                  setEditModal={setEditModal}
+                  editAction={handleEdit}
+                />
+              </div>
+            )}
+          </Sticky>
+        </StickyContainer>
+      )}
     </div>
   );
 };
@@ -206,10 +213,10 @@ export default TodoList;
 
 export const EditModal = ({ editModal, setEditModal, editAction }) => {
   return (
-    <>
+    <div className="edit-todo">
       <div className="modal-header">
         <div
-          className="btn btn-clear float-right"
+          className="btn btn-clear"
           onClick={() => {
             setEditModal({ data: {}, isOpen: false });
           }}
@@ -226,13 +233,13 @@ export const EditModal = ({ editModal, setEditModal, editAction }) => {
                 data={editModal.data}
                 editTodo={editAction}
               />
-              <div className={"todo-modal-text float-right"}>
+              <div className={"todo-modal-text"}>
                 {` - Modified on: ${dateFmt(editModal.data.modifiedDate)}`}
               </div>
             </>
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 };

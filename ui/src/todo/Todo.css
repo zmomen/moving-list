@@ -11,10 +11,15 @@ div {
   color: black;
 }
 
-td { white-space:pre }
+td {
+  white-space: pre;
+}
 
-textarea:focus, input:focus , input:not(:focus), textarea:not(:focus) {
-    color: black;
+textarea:focus,
+input:focus,
+input:not(:focus),
+textarea:not(:focus) {
+  color: black;
 }
 
 .todo-badge > * {
@@ -54,7 +59,7 @@ textarea:focus, input:focus , input:not(:focus), textarea:not(:focus) {
 }
 
 .todo-bg {
-    background-color: rgb(101, 82, 134);
+  background-color: rgb(101, 82, 134);
 }
 .todo-labels {
   color: white;
@@ -63,4 +68,8 @@ textarea:focus, input:focus , input:not(:focus), textarea:not(:focus) {
 .todo-list-spacing {
   display: flex;
   flex-direction: row;
+}
+
+.edit-todo {
+  width: 330px;
 }
