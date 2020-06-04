@@ -34,3 +34,7 @@
   justify-content: space-evenly;
   width: 450px;
 }
+
+.app-content {
+  padding-left: 11rem;
+}

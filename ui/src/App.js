@@ -78,7 +78,8 @@ const App = () => {
         ) : (
           ""
         )}
-
+      </div>
+      <div className={"app-content"}>
         <TodoList
           persons={persons}
           data={todos.data}
