@@ -57,7 +57,7 @@ public class TodoControllerTest {
                 .build();
 
         List<Todo> expected = Collections.singletonList(mockTodo);
-        when(todoRepository.findAll()).thenReturn(expected);
+        when(todoRepository.findAllByOrderByIdDesc()).thenReturn(expected);
         mockMvc.perform(get("/todos"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
@@ -180,9 +180,9 @@ public class TodoControllerTest {
 
         verify(todoRepository, times(1)).save(captor.capture());
 
-        assertEquals(request.getTitle() ,captor.getValue().getTitle());
-        assertEquals(request.getDescription() ,captor.getValue().getDescription());
-        assertEquals(request.isCompleted() ,captor.getValue().isCompleted());
+        assertEquals(request.getTitle(), captor.getValue().getTitle());
+        assertEquals(request.getDescription(), captor.getValue().getDescription());
+        assertEquals(request.isCompleted(), captor.getValue().isCompleted());
     }
 
     /*

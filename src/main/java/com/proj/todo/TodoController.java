@@ -63,7 +63,7 @@ public class TodoController {
 
         Todo todo = Todo.builder()
                 .title(todoRequest.getTitle())
-                .dueDate(formatDueDate(todoRequest.getDueDate()))
+                .dueDate(todoRequest.getDueDate())
                 .description(todoRequest.getDescription())
                 .todoCategory(maybeCategory)
                 .completed(false)
@@ -87,7 +87,7 @@ public class TodoController {
         foundTodo.get().setDescription(todoRequest.getDescription());
         foundTodo.get().setCompleted(todoRequest.isCompleted());
         foundTodo.get().setModifiedDate(new Date());
-        foundTodo.get().setDueDate(formatDueDate(todoRequest.getDueDate()));
+        foundTodo.get().setDueDate(todoRequest.getDueDate());
 
         todoRepository.save(foundTodo.get());
         return ResponseEntity.ok("Updated!");
@@ -104,9 +104,5 @@ public class TodoController {
 
         todoRepository.delete(Todo.builder().id(id).build());
         return ResponseEntity.noContent().build();
-    }
-
-    private Date formatDueDate(Date input) {
-        return Date.from(input.toInstant().plus(Duration.ofHours(5)));
     }
 }
