@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { dateFmt } from "../utils/helpers";
+import { dateFmt, dateOnly } from "../utils/helpers";
 import "./Todo.css";
 import Delete from "../common/icons/Delete";
 import CheckMark from "../common/icons/CheckMark";
@@ -135,11 +135,11 @@ const TodoList = (props) => {
                             className={idx % 2 === 0 ? "active" : ""}
                           >
                             <td style={{ width: "140px" }}>{todo.title}</td>
-                            <td style={{ width: "444px" }}>
+                            <td style={{ width: "484px" }}>
                               {todo.description}
                             </td>
-                            <td style={{ width: "200px" }}>
-                              {dateFmt(todo.dueDate)}
+                            <td style={{ width: "160px" }}>
+                              {dateOnly(todo.dueDate)}
                             </td>
                             <td style={{ width: "100px" }}>
                               {!editModal.isOpen && (

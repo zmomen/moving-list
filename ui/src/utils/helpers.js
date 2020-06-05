@@ -2,15 +2,17 @@ export function dateFmt(stringTimestamp) {
   return new Date(stringTimestamp).toLocaleString();
 }
 
+export function dateOnly(timestamp) {
+  return timestamp.split("T")[0];
+}
+
 export function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 export function customDateFormat(stringTimestamp = null) {
   var createdDate =
-    stringTimestamp !== null
-      ? new Date(stringTimestamp)
-      : new Date();
+    stringTimestamp !== null ? new Date(stringTimestamp) : new Date();
 
   var day = createdDate.getDate();
   var month = createdDate.getMonth() + 1; //months are zero based

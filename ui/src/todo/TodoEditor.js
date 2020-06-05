@@ -1,7 +1,7 @@
 import React, { useReducer, useState } from "react";
 import "./Todo.css";
 import ErrorBlock from "../common/ErrorBlock";
-import { customDateFormat } from "../utils/helpers";
+import { customDateFormat, dateOnly } from "../utils/helpers";
 
 const TodoEditor = (props) => {
   const [msg, setMsg] = useState("");
@@ -87,8 +87,8 @@ const TodoEditor = (props) => {
         </label>
         <input
           className={"form-input black"}
-          type="datetime-local"
-          defaultValue={userInput.dueDate}
+          type="date"
+          defaultValue={dateOnly(userInput.dueDate)}
           name="dueDate"
           onChange={handleChange}
         />
