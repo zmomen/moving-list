@@ -51,7 +51,7 @@ const TodoEditor = (props) => {
     >
       {props.type === "Edit" && <div className="modal-title h5">Edit task</div>}
       <div className={"form-group black"}>
-        <label className={`${props.type === "Add" ? "todo-labels" : ""}`}>
+        <label>
           Name
         </label>
         <input
@@ -61,7 +61,7 @@ const TodoEditor = (props) => {
           value={userInput.title}
           onChange={handleChange}
         />
-        <label className={`${props.type === "Add" ? "todo-labels" : ""}`}>
+        <label>
           Category
         </label>
         <input
@@ -71,7 +71,7 @@ const TodoEditor = (props) => {
           value={userInput.category}
           onChange={handleChange}
         />
-        <label className={`${props.type === "Add" ? "todo-labels" : ""}`}>
+        <label>
           Description
         </label>
         <div className={"margins"}>
@@ -82,7 +82,7 @@ const TodoEditor = (props) => {
             onChange={handleChange}
           />
         </div>
-        <label className={`${props.type === "Add" ? "todo-labels" : ""}`}>
+        <label>
           Due Date
         </label>
         <input

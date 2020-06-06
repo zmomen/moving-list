@@ -74,7 +74,19 @@ const App = () => {
           <TodoEditor type={"Add"} addTodo={addTodo} />
         </div>
         {todos.errors !== null ? (
-          <ErrorBlock message="Error! api call failed!" errors={todos.errors} />
+          <div>
+            <div className="empty">
+              <ErrorBlock
+                message="Error! api call failed!"
+                errors={todos.errors}
+              />
+              <div className="empty-action">
+                <a href="/" className={"navbar-brand mr-2"}>
+                  Refresh page
+                </a>
+              </div>
+            </div>
+          </div>
         ) : (
           ""
         )}

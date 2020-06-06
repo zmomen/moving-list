@@ -22,7 +22,6 @@
   display: flex;
   flex-flow: row;
   justify-content: space-evenly;
-  width: 450px;
 }
 
 .app-content {

@@ -25,12 +25,15 @@ textarea:not(:focus) {
 .todo-badge > * {
   margin-left: 5px;
 }
+.todo-table > * {
+  display: block;
+  margin-top: 15px;
+}
 
 .todo-table-title {
   text-align: center;
   font-size: 18pt;
 }
-
 
 .selected {
   font-weight: bold;
@@ -51,12 +54,25 @@ textarea:not(:focus) {
 }
 
 .todo-bg {
-  background-color: rgb(101, 82, 134);
-}
-.todo-labels {
-  color: white;
+  background-color: rgb(211, 243, 213);
+  border: solid #a3b6c1;
+  border-width: thin;
 }
 
 .edit-todo {
   width: 330px;
+}
+
+.dropdown {
+  width: 70%;
+}
+
+.divider {
+  border-top: 0.05rem solid rgb(111, 111, 111);
+  margin: 0.6rem 0;
+}
+
+.category-select {
+  border: solid #000;
+  border-width: thin;
 }

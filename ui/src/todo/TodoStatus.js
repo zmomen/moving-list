@@ -21,7 +21,7 @@ const TodoStatus = ({ data }) => {
   return (
     <div className={"black todo-badge"}>
       <span className={"badge"} data-badge={data.active}>
-        Active
+        <b>Active</b>
       </span>
 
       <span className={"badge"} data-badge={data.completed}>
@@ -30,7 +30,7 @@ const TodoStatus = ({ data }) => {
           href="#completed-modal"
           onClick={handleTodoStatus}
         >
-          Complete
+          <b>Complete</b>
         </a>
       </span>
       <Modal

@@ -1,17 +1,17 @@
 import React from "react";
 
-export default function ErrorBlock({ errors, message }) {
+export default function ErrorBlock({ style, errors, message }) {
   let colorStyle;
   switch (true) {
     case message.includes("Error"):
       colorStyle = "text-error";
       break;
-    case message.includes("Add"):
+    case message.includes("Add") || message.includes("Edit"):
       colorStyle = "text-success";
       break;
     default:
-      colorStyle = "black"
+      colorStyle = "black";
   }
 
-  return <div className={`float-right ${colorStyle}`}>{message}</div>;
+  return <div className={colorStyle}>{message}</div>;
 }

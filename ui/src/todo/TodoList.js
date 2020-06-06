@@ -60,75 +60,104 @@ const TodoList = ({ isNewData, setIsNewData, persons, data }) => {
     [isNewData, setIsNewData]
   );
 
-  const handleFilter = (evt, idx) => {
-    // if filter exists, reset it
-    if (filteredData.isFiltered === idx) {
-      setFilteredData({
-        data: data,
-        isFiltered: -1,
-      });
-    } else {
-      // else apply filter.
-      let filtered = JSON.parse(JSON.stringify(data));
-      filtered.map((cat) => {
-        cat.todos = cat.todos.filter((t) => t.title === evt.target.value);
-        return cat;
-      });
-      setFilteredData({
-        data: filtered,
-        isFiltered: idx,
-      });
-    }
-  };
-
   const handleEditModal = (todo) => {
     setEditModal({ isOpen: true, data: todo });
   };
 
+  const handleFilter = (filterType, evt, idx) => {
+    //flow for category filter
+    switch (true) {
+      case filterType === "category" && evt.target.value !== "reset":
+        //copy state
+        let filtered = JSON.parse(JSON.stringify(data));
+        filtered = filtered.filter(
+          (cat) => cat.category.toUpperCase() === evt.target.value
+        );
+        setFilteredData({
+          data: filtered,
+        });
+        break;
+      case filterType === "person":
+        // if filter exists, reset it
+        if (filteredData.isFiltered === idx) {
+          setFilteredData({
+            data: data,
+            isFiltered: -1,
+          });
+        } else {
+          // else apply filter.
+          //copy state
+          let filtered = JSON.parse(JSON.stringify(data));
+          filtered.map((cat) => {
+            cat.todos = cat.todos.filter((t) => t.title === evt.target.value);
+            return cat;
+          });
+          setFilteredData({
+            data: filtered,
+            isFiltered: idx,
+          });
+        }
+        break;
+      case evt.target.value === "reset":
+        setFilteredData({
+          data: data,
+          isFiltered: -1,
+        });
+        break;
+      default:
+    }
+  };
+
   const headers = ["Name", "Description", "Due Date", "Actions"];
-  return (
+  return data.length > 0 ? (
     <div className={"d-flex"}>
       <div>
-        <div className={"filter"}>
-          <div style={{ paddingTop: "5px" }}>Filters:</div>
+        <div className={"todo-table"}>
           <div>
-            {Array.from(persons).map((pp, idx) => {
-              return (
-                <button
-                  key={idx}
-                  className={`btn ${
-                    filteredData.isFiltered === idx ? "btn-primary" : ""
-                  }`}
-                  value={pp}
-                  onClick={(e) => handleFilter(e, idx)}
-                >
-                  {pp}
-                </button>
-              );
-            })}
+            <div className={"filter"}>
+              <h5 className={"pt-1"}>Filters:</h5>
+              {Array.from(persons).map((pers, idx) => {
+                return (
+                  <button
+                    key={idx}
+                    className={`btn ${
+                      filteredData.isFiltered === idx ? "btn-primary" : ""
+                    }`}
+                    value={pers}
+                    onClick={(e) => handleFilter("person", e, idx)}
+                  >
+                    {pers}
+                  </button>
+                );
+              })}
+              <div className={"form-group d-flex"}>
+                <h5 className={"pt-1"}>Category:</h5>
+                <div className={"dropdown px-1"}>
+                  <select
+                    className={"form-select category-select"}
+                    onChange={(e) => handleFilter("category", e)}
+                  >
+                    <option value="reset">Choose an option</option>
+                    {data.map((todoCategory, idx) => {
+                      return (
+                        <option key={idx}>
+                          {todoCategory.category.toUpperCase()}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+              </div>
+            </div>
           </div>
-          <div>
-            By Category:
-            <select name="cars" id="cars">
-              <option value="volvo">Volvo</option>
-              <option value="saab">Saab</option>
-              <option value="mercedes">Mercedes</option>
-              <option value="audi">Audi</option>
-            </select>
-          </div>
-        </div>
-        <div className={"divider"} />
-        <div className={"todo-table-title"}>Moving Checklist</div>
-        <div className={"divider"} />
-        <div className={"d-block"}>
+          <h3 className="text-center">Moving Checklist</h3>
           {filteredData.data
             .filter((todoCategory) => todoCategory.todos.length > 0)
             .map((todoCategory, index) => {
               return (
                 <div key={index}>
-                  <b className={"todo-category"}>
-                    {todoCategory.category.toUpperCase()}
-                  </b>
+                  <b>{todoCategory.category.toUpperCase()}</b>
+                  <div className={"divider"} />
                   <table className={"table table-striped"}>
                     <thead>
                       <tr>
@@ -218,6 +247,8 @@ const TodoList = ({ isNewData, setIsNewData, persons, data }) => {
         </StickyContainer>
       )}
     </div>
+  ) : (
+    <></>
   );
 };
 
