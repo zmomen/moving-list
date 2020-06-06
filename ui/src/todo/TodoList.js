@@ -10,8 +10,7 @@ import { capitalizeFirstLetter } from "../utils/helpers";
 import TodoEditor from "./TodoEditor";
 import { Sticky, StickyContainer } from "react-sticky";
 
-const TodoList = (props) => {
-  const { isNewData, setIsNewData, persons, data } = props;
+const TodoList = ({ isNewData, setIsNewData, persons, data }) => {
   useEffect(() => {
     setFilteredData({ data: data, isFiltered: -1 });
   }, [data]);
@@ -88,27 +87,40 @@ const TodoList = (props) => {
 
   const headers = ["Name", "Description", "Due Date", "Actions"];
   return (
-    <div className={"todo-list-spacing"}>
+    <div className={"d-flex"}>
       <div>
         <div className={"filter"}>
           <div style={{ paddingTop: "5px" }}>Filters:</div>
-          {Array.from(persons).map((pp, idx) => {
-            return (
-              <button
-                key={idx}
-                className={`btn ${
-                  filteredData.isFiltered === idx ? "btn-primary" : ""
-                }`}
-                value={pp}
-                onClick={(e) => handleFilter(e, idx)}
-              >
-                {pp}
-              </button>
-            );
-          })}
+          <div>
+            {Array.from(persons).map((pp, idx) => {
+              return (
+                <button
+                  key={idx}
+                  className={`btn ${
+                    filteredData.isFiltered === idx ? "btn-primary" : ""
+                  }`}
+                  value={pp}
+                  onClick={(e) => handleFilter(e, idx)}
+                >
+                  {pp}
+                </button>
+              );
+            })}
+          </div>
+          <div>
+            By Category:
+            <select name="cars" id="cars">
+              <option value="volvo">Volvo</option>
+              <option value="saab">Saab</option>
+              <option value="mercedes">Mercedes</option>
+              <option value="audi">Audi</option>
+            </select>
+          </div>
         </div>
+        <div className={"divider"} />
         <div className={"todo-table-title"}>Moving Checklist</div>
-        <div className={"todo-table"}>
+        <div className={"divider"} />
+        <div className={"d-block"}>
           {filteredData.data
             .filter((todoCategory) => todoCategory.todos.length > 0)
             .map((todoCategory, index) => {
@@ -143,22 +155,22 @@ const TodoList = (props) => {
                             </td>
                             <td style={{ width: "100px" }}>
                               {!editModal.isOpen && (
-                                <div style={{ display: "flex" }}>
+                                <div className="d-flex">
                                   <a
                                     href={`#delete-modal${todo.id}`}
-                                    className={"todo-action-btn"}
+                                    className={"c-hand"}
                                   >
                                     <Delete />
                                   </a>
                                   <a
                                     href={`#marking-complete-modal${todo.id}`}
-                                    className={"todo-action-btn"}
+                                    className={"c-hand"}
                                   >
                                     <CheckMark />
                                   </a>
                                   <div
                                     onClick={() => handleEditModal(todo)}
-                                    className={"todo-action-btn"}
+                                    className={"c-hand"}
                                   >
                                     <Edit />
                                   </div>

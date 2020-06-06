@@ -69,8 +69,8 @@ const App = () => {
     <div>
       <div className={"container grid-lg"}>
         <Nav data={todoStatus} />
-        <div className={"App-logo"}>
-          <BannerImage className={"rounded"} width="350" height="300" />
+        <div className={"d-flex App-logo"}>
+          <BannerImage className={"rounded"} width="350" height="350" />
           <TodoEditor type={"Add"} addTodo={addTodo} />
         </div>
         {todos.errors !== null ? (

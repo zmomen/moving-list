@@ -4,25 +4,14 @@ export default function ErrorBlock({ errors, message }) {
   let colorStyle;
   switch (true) {
     case message.includes("Error"):
-      colorStyle = "darkred";
+      colorStyle = "text-error";
       break;
     case message.includes("Add"):
-      colorStyle = "white";
-      break;
-    case message.includes("Edit"):
-      colorStyle = "black";
+      colorStyle = "text-success";
       break;
     default:
+      colorStyle = "black"
   }
 
-  return (
-    <div
-      style={{
-        float: "right",
-        color: colorStyle,
-      }}
-    >
-      {message}
-    </div>
-  );
+  return <div className={`float-right ${colorStyle}`}>{message}</div>;
 }

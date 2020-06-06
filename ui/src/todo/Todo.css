@@ -31,10 +31,6 @@ textarea:not(:focus) {
   font-size: 18pt;
 }
 
-.todo-table > * {
-  display: block;
-  margin-top: 15px;
-}
 
 .selected {
   font-weight: bold;
@@ -54,20 +50,11 @@ textarea:not(:focus) {
   text-align: justify;
 }
 
-.todo-action-btn {
-  cursor: pointer;
-}
-
 .todo-bg {
   background-color: rgb(101, 82, 134);
 }
 .todo-labels {
   color: white;
-}
-
-.todo-list-spacing {
-  display: flex;
-  flex-direction: row;
 }
 
 .edit-todo {
