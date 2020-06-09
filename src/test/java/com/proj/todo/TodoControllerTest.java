@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static org.hamcrest.Matchers.hasSize;
@@ -33,6 +34,7 @@ public class TodoControllerTest {
 
     @Mock
     private TodoCategoryRepository todoCategoryRepository;
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
     ArgumentCaptor<Todo> captor = ArgumentCaptor.forClass(Todo.class);
 
@@ -72,7 +74,7 @@ public class TodoControllerTest {
                 .title("title")
                 .description("desc")
                 .category(mockedCategory)
-                .dueDate(new Date())
+                .dueDate("2020-06-09")
                 .completed(false)
                 .build();
 
@@ -85,7 +87,12 @@ public class TodoControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(content().string("CREATED!"));
 
-        verify(todoRepository, times(1)).save(any(Todo.class));
+        verify(todoRepository, times(1)).save(captor.capture());
+
+        assertEquals(request.getTitle(), captor.getValue().getTitle());
+        assertEquals(request.getDescription(), captor.getValue().getDescription());
+        assertEquals(formatter.parse(request.getDueDate()), captor.getValue().getDueDate());
+        assertEquals(request.isCompleted(), captor.getValue().isCompleted());
     }
 
     @Test
@@ -96,7 +103,7 @@ public class TodoControllerTest {
                 .title("title")
                 .description("desc")
                 .category(mockedCategory)
-                .dueDate(new Date())
+                .dueDate("2020-06-09")
                 .completed(false)
                 .build();
 
@@ -165,7 +172,7 @@ public class TodoControllerTest {
         TodoRequest request = TodoRequest.builder()
                 .title("title")
                 .description("updated desc")
-                .dueDate(new Date())
+                .dueDate("2020-06-09")
                 .completed(false)
                 .build();
 
@@ -182,6 +189,7 @@ public class TodoControllerTest {
 
         assertEquals(request.getTitle(), captor.getValue().getTitle());
         assertEquals(request.getDescription(), captor.getValue().getDescription());
+        assertEquals(formatter.parse(request.getDueDate()), captor.getValue().getDueDate());
         assertEquals(request.isCompleted(), captor.getValue().isCompleted());
     }
 

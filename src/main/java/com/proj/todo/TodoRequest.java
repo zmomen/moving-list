@@ -1,5 +1,6 @@
 package com.proj.todo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,5 +17,5 @@ public class TodoRequest {
     String description;
     String category;
     boolean completed;
-    Date dueDate;
+    String dueDate;
 }

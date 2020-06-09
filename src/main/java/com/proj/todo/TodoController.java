@@ -7,11 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.time.Duration;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -63,7 +61,7 @@ public class TodoController {
 
         Todo todo = Todo.builder()
                 .title(todoRequest.getTitle())
-                .dueDate(todoRequest.getDueDate())
+                .dueDate(convertToDate(todoRequest.getDueDate()))
                 .description(todoRequest.getDescription())
                 .todoCategory(maybeCategory)
                 .completed(false)
@@ -87,7 +85,7 @@ public class TodoController {
         foundTodo.get().setDescription(todoRequest.getDescription());
         foundTodo.get().setCompleted(todoRequest.isCompleted());
         foundTodo.get().setModifiedDate(new Date());
-        foundTodo.get().setDueDate(todoRequest.getDueDate());
+        foundTodo.get().setDueDate(convertToDate(todoRequest.getDueDate()));
 
         todoRepository.save(foundTodo.get());
         return ResponseEntity.ok("Updated!");
@@ -105,4 +103,15 @@ public class TodoController {
         todoRepository.delete(Todo.builder().id(id).build());
         return ResponseEntity.noContent().build();
     }
+
+    private Date convertToDate(String dateString) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        try {
+            return formatter.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }
