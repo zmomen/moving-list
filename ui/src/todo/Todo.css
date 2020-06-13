@@ -46,11 +46,12 @@ textarea:not(:focus) {
   font-size: small;
 }
 
-.todo-completed-block {
-  display: flex;
+.todo-completed {
   color: green;
-  justify-content: space-between;
-  text-align: justify;
+}
+
+.modal-completed-size {
+  max-width: 800px;
 }
 
 .todo-bg {

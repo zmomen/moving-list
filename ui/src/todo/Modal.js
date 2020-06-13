@@ -1,5 +1,6 @@
 import React from "react";
 import { dateFmt } from "../utils/helpers";
+import { capitalizeFirstLetter } from "../utils/helpers";
 
 const Modal = ({ type, id, title, data, deleteAction, markCompleteAction }) => {
   return (
@@ -9,7 +10,7 @@ const Modal = ({ type, id, title, data, deleteAction, markCompleteAction }) => {
           <a className="modal-overlay" href="#modals" aria-label="Close">
             &nbsp;
           </a>
-          <div className="modal-container" role="document">
+          <div className="modal-container modal-completed-size" role="document">
             <div className="modal-header">
               <a
                 className="btn btn-clear float-right"
@@ -50,23 +51,34 @@ const Modal = ({ type, id, title, data, deleteAction, markCompleteAction }) => {
 export default Modal;
 
 export const CompletedTasksModalContent = ({ data }) => {
+  const headers = ["Name", "Description", "Completed On"];
   return (
     <>
       <div className="modal-body">
         <div className="content">
-          {data.complete &&
-            data.complete.map((todo, index) => {
-              return (
-                <div className={"todo-completed-block"}>
-                  <div className={"todo-completed-block"}>
-                    &#10003; {todo.title} {todo.description.substring(0, 20)}...
-                  </div>
-                  <div className={"todo-modal-text"}>
-                    {` - Completed on: ${dateFmt(todo.modifiedDate)}`}
-                  </div>
-                </div>
-              );
-            })}
+          <table>
+            <thead>
+              {headers.map((header, hd) => (
+                <th key={hd}>{capitalizeFirstLetter(header)}</th>
+              ))}
+            </thead>
+            <tbody>
+              {data.complete &&
+                data.complete.map((todo, index) => {
+                  return (
+                    <tr key={index}>
+                      <td className={"todo-completed"}>
+                        &#10003; {todo.title}
+                      </td>
+                      <td className={"todo-completed"}>{todo.description}</td>
+                      <td className={"todo-modal-text"}>
+                        {dateFmt(todo.modifiedDate)}
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
         </div>
       </div>
       <div className="modal-footer">
