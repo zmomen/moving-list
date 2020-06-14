@@ -37,7 +37,7 @@ const Modal = ({ type, id, title, data, deleteAction, markCompleteAction }) => {
                     <DeleteModal deleteAction={deleteAction} data={data} />
                   );
                 case "completed":
-                  return <CompletedTasksModalContent data={data} />;
+                  return <CompletedTasksModal data={data} />;
                 default:
               }
             })()}
@@ -50,7 +50,8 @@ const Modal = ({ type, id, title, data, deleteAction, markCompleteAction }) => {
 
 export default Modal;
 
-export const CompletedTasksModalContent = ({ data }) => {
+export const CompletedTasksModal = ({ data }) => {
+  console.warn("Whats in data", data);
   const headers = ["Name", "Description", "Completed On"];
   return (
     <>
@@ -58,25 +59,29 @@ export const CompletedTasksModalContent = ({ data }) => {
         <div className="content">
           <table>
             <thead>
-              {headers.map((header, hd) => (
-                <th key={hd}>{capitalizeFirstLetter(header)}</th>
-              ))}
+              <tr>
+                {headers.map((header, hd) => (
+                  <th key={hd}>{capitalizeFirstLetter(header)}</th>
+                ))}
+              </tr>
             </thead>
             <tbody>
               {data.complete &&
-                data.complete.map((todo, index) => {
-                  return (
-                    <tr key={index}>
-                      <td className={"todo-completed"}>
-                        &#10003; {todo.title}
-                      </td>
-                      <td className={"todo-completed"}>{todo.description}</td>
-                      <td className={"todo-modal-text"}>
-                        {dateFmt(todo.modifiedDate)}
-                      </td>
-                    </tr>
-                  );
-                })}
+                data.complete
+                  .sort((a, b) => new Date(b.modifiedDate) - new Date(a.modifiedDate))
+                  .map((todo, index) => {
+                    return (
+                      <tr key={index}>
+                        <td className={"todo-completed"}>
+                          &#10003; {todo.title}
+                        </td>
+                        <td className={"todo-completed"}>{todo.description}</td>
+                        <td className={"todo-modal-text"}>
+                          {dateFmt(todo.modifiedDate)}
+                        </td>
+                      </tr>
+                    );
+                  })}
             </tbody>
           </table>
         </div>
